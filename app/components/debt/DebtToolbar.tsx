@@ -3,7 +3,7 @@
 export function DebtToolbar() {
     return (
       <div className="mb-3 flex flex-col items-start justify-between gap-3 text-xs sm:mb-4 sm:flex-row sm:items-center sm:text-sm">
-        <h1 className="font-semibold text-slate-800">
+        <h1 className="font-semibold text-slate-800 lg:text-[28px] md:text-sm text-sm sm:text-sm">
           Debt Tracker
         </h1>
   

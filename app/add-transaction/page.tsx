@@ -9,7 +9,7 @@ export default function AddTransactionPage() {
       <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
         {/* Page title */}
         <div className="text-xs sm:text-sm">
-          <h1 className="font-semibold text-slate-800">
+          <h1 className="font-semibold text-slate-800 lg:text-[28px] md:text-sm text-sm sm:text-sm">
             Add New Transaction
           </h1>
         </div>
