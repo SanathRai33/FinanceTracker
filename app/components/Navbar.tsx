@@ -13,7 +13,7 @@ const navItems = [
   { label: "Add Transaction", href: "/add-transaction", icon: <RiExchangeDollarLine size={16} /> },
   { label: "Transactions", href: "/transactions", icon: <FaRegUser size={16} /> },
   { label: "Analytics", href: "/analytics", icon: <FiBarChart2 size={16} /> },
-  { label: "Savings Goals", href: "/savings-goals", icon: <MdOutlineSavings size={16} /> },
+  { label: "Savings Goals", href: "/goals", icon: <MdOutlineSavings size={16} /> },
   { label: "Debt Tracker", href: "/debt-tracker", icon: <FaRegUser size={16} /> },
 ];
 
