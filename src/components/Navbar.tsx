@@ -10,7 +10,7 @@ import { RiExchangeDollarLine } from "react-icons/ri";
 import { IoWalletOutline } from "react-icons/io5";
 
 const navItems = [
-  { label: "Dashboard", href: "/", icon: FiHome },
+  { label: "Dashboard", href: "/dashboard", icon: FiHome },
   { label: "Transactions", href: "/transactions", icon: IoWalletOutline },
   { label: "Analytics", href: "/analytics", icon: FiBarChart2 },
   { label: "Savings Goals", href: "/savings-goals", icon: MdOutlineSavings },
