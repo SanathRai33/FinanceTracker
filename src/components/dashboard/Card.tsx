@@ -8,14 +8,8 @@ type CardProps = {
 
 export default function Card({ children, className = "" }: CardProps) {
   return (
-    <section
-      className={
-        "rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 " +
-        "sm:p-5 " +
-        className
-      }
-    >
+    <div className={`rounded-lg bg-white p-4 shadow-sm ${className}`}>
       {children}
-    </section>
+    </div>
   );
 }
