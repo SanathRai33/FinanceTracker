@@ -1,7 +1,7 @@
 // app/goals/page.tsx
 
-import { GoalsToolbar } from "../components/goals/GoalsToolbar";
-import { GoalsEmptyState } from "../components/goals/GoalsEmptyState";
+import { GoalsToolbar } from "../../src/components/goals/GoalsToolbar";
+import { GoalsEmptyState } from "../../src/components/goals/GoalsEmptyState";
 
 export default function GoalsPage() {
   return (

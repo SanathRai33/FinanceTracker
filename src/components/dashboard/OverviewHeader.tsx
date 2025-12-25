@@ -1,5 +1,5 @@
 // app/components/dashboard/OverviewHeader.tsx
-import Card from "@/app/components/dashboard/Card";
+import Card from "@/src/components/dashboard/Card";
 
 export default function OverviewHeader() {
   return (

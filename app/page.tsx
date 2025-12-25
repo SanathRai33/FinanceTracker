@@ -1,9 +1,9 @@
 // app/page.tsx  (or app/dashboard/page.tsx)
-import OverviewHeader from "@/app/components/dashboard/OverviewHeader";
-import StatCard from "@/app/components/dashboard/StatCard";
-import { QuickActions } from "@/app/components/dashboard/QuickActions";
-import { IncomeDistribution } from "@/app/components/dashboard/IncomeDistribution";
-import { RecentTransactions } from "@/app/components/dashboard/RecentTransactions";
+import OverviewHeader from "@/src/components/dashboard/OverviewHeader";
+import StatCard from "@/src/components/dashboard/StatCard";
+import { QuickActions } from "@/src/components/dashboard/QuickActions";
+import { IncomeDistribution } from "@/src/components/dashboard/IncomeDistribution";
+import { RecentTransactions } from "@/src/components/dashboard/RecentTransactions";
 
 // you can swap these for react-icons if you installed them
 function PlaceholderIcon() {

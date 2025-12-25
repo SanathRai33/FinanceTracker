@@ -1,7 +1,7 @@
 // app/debt-tracker/page.tsx
 
-import { DebtToolbar } from "../components/debt/DebtToolbar";
-import { DebtEmptyState } from "../components/debt/DebtEmptyState";
+import { DebtToolbar } from "../../src/components/debt/DebtToolbar";
+import { DebtEmptyState } from "../../src/components/debt/DebtEmptyState";
 
 export default function DebtTrackerPage() {
   return (

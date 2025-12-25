@@ -1,7 +1,7 @@
 // app/add-transaction/page.tsx  (this is your AddTransaction.tsx page)
 
-import { AddTransactionForm } from "@/app/components/add-transaction/AddTransactionForm";
-import { MonthlySummary } from "@/app/components/add-transaction/MonthlySummary";
+import { AddTransactionForm } from "@/src/components/add-transaction/AddTransactionForm";
+import { MonthlySummary } from "@/src/components/add-transaction/MonthlySummary";
 
 export default function AddTransactionPage() {
   return (

@@ -2,8 +2,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { TransactionsFilters } from "../components/transactions/TransactionsFilters";
-import { TransactionsTable } from "../components/transactions/TransactionsTable";
+import { TransactionsFilters } from "../../src/components/transactions/TransactionsFilters";
+import { TransactionsTable } from "../../src/components/transactions/TransactionsTable";
 
 export default function TransactionsPage() {
 

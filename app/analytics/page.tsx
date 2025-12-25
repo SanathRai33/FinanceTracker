@@ -1,9 +1,9 @@
 // app/analytics/page.tsx
 
-import AnalyticsStatCard from "../components/analytics/AnalyticsStatCard";
-import { BalanceOverTime } from "../components/analytics/BalanceOverTime";
-import { ExpenseSavingsBreakdown } from "../components/analytics/ExpenseSavingsBreakdown";
-import { NeedWantBreakdown } from "../components/analytics/NeedWantBreakdown";
+import AnalyticsStatCard from "../../src/components/analytics/AnalyticsStatCard";
+import { BalanceOverTime } from "../../src/components/analytics/BalanceOverTime";
+import { ExpenseSavingsBreakdown } from "../../src/components/analytics/ExpenseSavingsBreakdown";
+import { NeedWantBreakdown } from "../../src/components/analytics/NeedWantBreakdown";
 
 // replace with react-icons if you like
 function MiniIcon() {

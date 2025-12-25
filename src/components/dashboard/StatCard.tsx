@@ -1,5 +1,5 @@
 // app/components/dashboard/StatCard.tsx
-import Card from "@/app/components/dashboard/Card";
+import Card from "@/src/components/dashboard/Card";
 import { ReactNode } from "react";
 
 type StatCardProps = {

@@ -1,5 +1,5 @@
 // app/components/dashboard/RecentTransactions.tsx
-import Card from "@/app/components/dashboard/Card";
+import Card from "@/src/components/dashboard/Card";
 
 export function RecentTransactions() {
   return (
