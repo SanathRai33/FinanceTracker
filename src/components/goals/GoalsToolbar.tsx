@@ -7,7 +7,7 @@ export function GoalsToolbar() {
           Savings Goal Tracker
         </h1>
   
-        <button className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm">
+        <button className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm cursor-pointer">
           <span className="text-base leading-none">+</span>
           <span>Add Goal</span>
         </button>

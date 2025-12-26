@@ -28,10 +28,10 @@ export function TransactionsFilters() {
         </div>
 
         <div className="flex flex-wrap gap-2 text-xs sm:text-sm">
-          <button className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700 shadow-sm transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700">
+          <button className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700 shadow-sm transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 cursor-pointer">
             Export to Excel
           </button>
-          <button className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700 shadow-sm transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700">
+          <button className="rounded-full border border-slate-200 px-3 py-1.5 text-slate-700 shadow-sm transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700 cursor-pointer">
             Export to PDF
           </button>
         </div>

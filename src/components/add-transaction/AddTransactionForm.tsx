@@ -191,7 +191,7 @@ export function AddTransactionForm() {
         <div>
           <button
             type="submit"
-            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm"
+            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm cursor-pointer"
           >
             Save Transaction
           </button>

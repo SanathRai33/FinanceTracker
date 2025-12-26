@@ -1,7 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import { FiGithub, FiTwitter, FiLinkedin, FiMail, FiHeart, FiInstagram, FiDollarSign } from "react-icons/fi";
+import Image from "next/image";
+import Logo from "@/src/assets/images/Logo.png";
+import {
+  FiGithub,
+  FiTwitter,
+  FiLinkedin,
+  FiMail,
+  FiHeart,
+  FiInstagram,
+  FiDollarSign,
+} from "react-icons/fi";
 import { MdOutlineSecurity } from "react-icons/md";
 
 export default function Footer() {
@@ -27,7 +37,11 @@ export default function Footer() {
       { label: "Terms of Service", href: "/terms" },
       { label: "Cookie Policy", href: "/cookies" },
       { label: "GDPR", href: "/gdpr" },
-      { label: "Security", href: "/security", icon: <MdOutlineSecurity className="inline" /> },
+      {
+        label: "Security",
+        href: "/security",
+        icon: <MdOutlineSecurity className="inline" />,
+      },
     ],
     support: [
       { label: "Help Center", href: "/support" },
@@ -39,11 +53,27 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { icon: <FiGithub size={18} />, href: "https://github.com/SanathRai33", label: "GitHub" },
-    { icon: <FiInstagram size={18} />, href: "https://www.instagram.com/sannu_rai33/", label: "Instagram" },
+    {
+      icon: <FiGithub size={18} />,
+      href: "https://github.com/SanathRai33",
+      label: "GitHub",
+    },
+    {
+      icon: <FiInstagram size={18} />,
+      href: "https://www.instagram.com/sannu_rai33/",
+      label: "Instagram",
+    },
     // { icon: <FiTwitter size={18} />, href: "https://twitter.com/SanathRai33", label: "Twitter" },
-    { icon: <FiLinkedin size={18} />, href: "https://www.linkedin.com/in/sanath-rai33/", label: "LinkedIn" },
-    { icon: <FiMail size={18} />, href: "mailto:support@financetracker.com", label: "Email" },
+    {
+      icon: <FiLinkedin size={18} />,
+      href: "https://www.linkedin.com/in/sanath-rai33/",
+      label: "LinkedIn",
+    },
+    {
+      icon: <FiMail size={18} />,
+      href: "mailto:support@financetracker.com",
+      label: "Email",
+    },
   ];
 
   return (
@@ -54,26 +84,36 @@ export default function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-sm">
+              <div className="flex h-10 w-12 items-center justify-center rounded-xl text-white shadow-sm">
                 {/* <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg> */}
-                <span className="text-white text-2xl font-semibold text-center justify-center items-center flex h-5 w-5">
-                  {/* <FiDollarSign size={18} /> */}
-                  ₹
-                </span>
+                <div className="relative w-12 h-12">
+                  <Image
+                    src={Logo}
+                    alt="FinanceTracker Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">FinanceTracker</h3>
+                <h3 className="text-lg font-bold text-gray-900">
+                  FinanceTracker
+                </h3>
                 <p className="mt-2 text-sm text-gray-600">
-                  Take control of your finances with our all-in-one money management platform.
+                  Take control of your finances with our all-in-one money
+                  management platform.
                 </p>
               </div>
             </div>
-            
+
             {/* Social Links */}
             <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-gray-900">Follow us</p>
+              <p className="mb-3 text-sm font-medium text-gray-900">
+                Follow us
+              </p>
               <div className="flex gap-3">
                 {socialLinks.map((social) => (
                   <a
@@ -147,7 +187,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
-            
+
             <h4 className="mb-4 mt-6 text-sm font-semibold uppercase tracking-wider text-gray-900">
               Support
             </h4>
@@ -176,7 +216,8 @@ export default function Footer() {
               © {year} FinanceTracker. All rights reserved.
             </p>
             <p className="mt-1 text-xs text-gray-500">
-              Made with <FiHeart className="inline h-3 w-3 text-red-500" /> for better financial decisions.
+              Made with <FiHeart className="inline h-3 w-3 text-red-500" /> for
+              better financial decisions.
             </p>
           </div>
 
@@ -228,17 +269,27 @@ export default function Footer() {
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="text-center sm:text-left">
               <p className="text-sm font-medium text-gray-900">Get the app</p>
-              <p className="text-xs text-gray-600">Track your finances on the go</p>
+              <p className="text-xs text-gray-600">
+                Track your finances on the go
+              </p>
             </div>
             <div className="flex gap-3">
               <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M14.94 3.5H9.06L8 5.44l3.54 2.26 3.46-2.26zM8.92 6.5L5 9.64l3.92 2.5 1.96-3.28zm6.16 0l-1.96 3.28L19 9.64l-3.92-2.5zM5.67 10.5L2 12l3.67 1.5L7.5 12zm12.66 0L16.5 12l1.83 1.5L22 12zM8.92 13.86L5 16.36l3.92 2.5 1.96-3.28zm6.16 0l-1.96 3.28L19 16.36l-3.92-2.5zM5.67 17.5L2 19l3.67 1.5L7.5 19zm12.66 0L16.5 19l1.83 1.5L22 19z" />
                 </svg>
                 App Store
               </button>
               <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="h-5 w-5"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M3 3h18v18H3V3zm4.5 9.75v-1.5h9v1.5h-9zm0 3v-1.5h9v1.5h-9zm0-6v-1.5h9v1.5h-9z" />
                 </svg>
                 Google Play

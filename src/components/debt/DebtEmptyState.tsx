@@ -25,7 +25,7 @@ export function DebtEmptyState() {
             </p>
           </div>
   
-          <button className="mt-2 inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:px-5 sm:py-2.5 sm:text-sm">
+          <button className="mt-2 inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:px-5 sm:py-2.5 sm:text-sm cursor-pointer">
             <span className="text-base leading-none">+</span>
             <span>Add Your First Record</span>
           </button>

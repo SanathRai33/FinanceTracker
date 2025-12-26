@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,6 +34,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser, useLogout } from "@/src/hooks/useAuth";
+import Logo from "@/src/assets/images/Logo.png";
 
 const navItems = [
   { label: "Dashboard", href: "/", icon: FiHome },
@@ -108,9 +110,6 @@ export default function Navbar() {
       .slice(0, 2);
   };
 
-  {console.log("Image", user?.avatarUrl)}
-
-
   return (
     <>
       <header
@@ -124,9 +123,16 @@ export default function Navbar() {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-blue-700 text-white shadow-sm">
-                ₹
+              <div className="relative w-12 h-12">
+                <Image
+                  src={Logo}
+                  alt="FinanceTracker Logo"
+                  fill
+                  className="object-contain"
+                  priority
+                />
               </div>
+
               <span className="text-lg font-bold text-gray-900">
                 FinanceTracker
               </span>
@@ -158,7 +164,7 @@ export default function Navbar() {
             </div>
 
             {/* User Profile & Notifications */}
-            <div className="flex items-center gap-4">
+            <div className="lg:flex items-center gap-4 hidden">
               {/* Notifications */}
               <Button
                 variant="ghost"
@@ -188,14 +194,18 @@ export default function Navbar() {
                     className="relative h-10 w-10 rounded-full p-0 hover:bg-gray-100"
                   >
                     <Avatar className="h-10 w-10 border-2 border-white">
-                      <AvatarImage src={user?.avatarUrl} alt={user?.name}/>
+                      <AvatarImage src={user?.avatarUrl} alt={user?.name} />
                       <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-white">
                         {getUserInitials()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56 bg-white text-black" align="center" forceMount>
+                <DropdownMenuContent
+                  className="w-56 bg-white text-black"
+                  align="center"
+                  forceMount
+                >
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
@@ -281,8 +291,14 @@ export default function Navbar() {
               >
                 <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-blue-700 text-white">
-                      ₹
+                    <div className="relative w-12 h-12">
+                      <Image
+                        src={Logo}
+                        alt="FinanceTracker Logo"
+                        fill
+                        className="object-contain"
+                        priority
+                      />
                     </div>
                     <span className="text-lg font-bold text-gray-900">
                       FinanceTracker

@@ -21,7 +21,7 @@ export default function DashboardPage() {
   const netBalance = stats?.netBalance ?? 0;
 
   return (
-    <div className="bg-blue-200 px-3 py-4 sm:px-4 sm:py-6 lg:px-6">
+    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6">
       <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
         <OverviewHeader isLoading={statsLoading} />
 
