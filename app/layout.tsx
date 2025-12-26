@@ -8,7 +8,7 @@ import QueryProvider from "../src/providers/QueryProvider";
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
-const AUTH_FREE_ROUTES = ["/"];
+const AUTH_FREE_ROUTES = ["/login"];
 
 function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();

@@ -1,26 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiMenu, FiX, FiHome, FiBarChart2 } from "react-icons/fi";
-import { MdOutlineSavings, MdOutlineAccountBalance } from "react-icons/md";
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiBarChart2,
+  FiLogOut,
+  FiUser,
+  FiSettings,
+  FiCreditCard,
+  FiBell,
+} from "react-icons/fi";
+import {
+  MdOutlineSavings,
+  MdOutlineAccountBalance,
+  MdOutlineNotifications,
+} from "react-icons/md";
 import { RiExchangeDollarLine } from "react-icons/ri";
 import { IoWalletOutline } from "react-icons/io5";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { useCurrentUser, useLogout } from "@/src/hooks/useAuth";
 
 const navItems = [
-  { label: "Dashboard", href: "/dashboard", icon: FiHome },
+  { label: "Dashboard", href: "/", icon: FiHome },
   { label: "Transactions", href: "/transactions", icon: IoWalletOutline },
   { label: "Analytics", href: "/analytics", icon: FiBarChart2 },
   { label: "Savings Goals", href: "/savings-goals", icon: MdOutlineSavings },
-  { label: "Debt Tracker", href: "/debt-tracker", icon: MdOutlineAccountBalance },
+  {
+    label: "Debt Tracker",
+    href: "/debt-tracker",
+    icon: MdOutlineAccountBalance,
+  },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: user, isLoading: meLoading } = useCurrentUser();
+  const { mutate: logout, isPending: isLoggingOut } = useLogout();
 
   // Handle scroll effect for navbar
   useEffect(() => {
@@ -55,12 +88,35 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  // Get user initials for avatar fallback
+  const getUserInitials = () => {
+    if (!user?.name) return "U";
+    return user.name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  {console.log("Image", user?.avatarUrl)}
+
+
   return (
     <>
-      <header 
+      <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrolled 
-            ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm" 
+          scrolled
+            ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm"
             : "bg-white border-b border-gray-100"
         }`}
       >
@@ -68,11 +124,12 @@ export default function Navbar() {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-sm">
-                {/* <FiBarChart2 size={20} /> */}
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-blue-700 text-white shadow-sm">
                 ₹
               </div>
-              <span className="text-lg font-bold text-gray-900">FinanceTracker</span>
+              <span className="text-lg font-bold text-gray-900">
+                FinanceTracker
+              </span>
             </div>
 
             {/* Desktop Navigation */}
@@ -90,9 +147,9 @@ export default function Navbar() {
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                     }`}
                   >
-                    <Icon 
-                      size={18} 
-                      className={active ? "text-blue-600" : "text-gray-500"} 
+                    <Icon
+                      size={18}
+                      className={active ? "text-blue-600" : "text-gray-500"}
                     />
                     {item.label}
                   </Link>
@@ -100,15 +157,90 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* User Profile */}
-            <div className="hidden md:flex md:items-center">
-              <div className="ml-4 flex items-center gap-3">
-                <div className="h-8 w-8 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
-                <div className="hidden lg:block">
-                  <p className="text-sm font-medium text-gray-900">John Doe</p>
-                  <p className="text-xs text-gray-500">Premium User</p>
-                </div>
+            {/* User Profile & Notifications */}
+            <div className="flex items-center gap-4">
+              {/* Notifications */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hidden md:flex rounded-full"
+              >
+                <FiBell size={20} className="text-gray-600" />
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                  3
+                </span>
+              </Button>
+
+              {/* Profile Dropdown */}
+              {/* Mobile user info (only visible on desktop) */}
+              <div className="hidden lg:block ml-2">
+                <p className="text-sm font-medium text-gray-900">
+                  {user?.name || "Loading..."}
+                </p>
+                <p className="text-xs text-gray-500">
+                  {meLoading ? "Loading..." : user?.email || "Free Plan"}
+                </p>
               </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-10 w-10 rounded-full p-0 hover:bg-gray-100"
+                  >
+                    <Avatar className="h-10 w-10 border-2 border-white">
+                      <AvatarImage src={user?.avatarUrl} alt={user?.name}/>
+                      <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-white">
+                        {getUserInitials()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-white text-black" align="center" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        {user?.name || "John Doe"}
+                      </p>
+                      <p className="text-xs leading-none text-gray-500">
+                        {user?.email || "john.doe@example.com"}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">
+                      <FiUser className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/billing" className="cursor-pointer">
+                      <FiCreditCard className="mr-2 h-4 w-4" />
+                      <span>Billing</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="cursor-pointer">
+                      <FiSettings className="mr-2 h-4 w-4" />
+                      <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    disabled={isLoggingOut}
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                  >
+                    <FiLogOut className="mr-2 h-4 w-4" />
+                    <span>{isLoggingOut ? "Logging out..." : "Log out"}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             {/* Mobile menu button */}
@@ -138,7 +270,7 @@ export default function Navbar() {
                 exit={{ opacity: 0 }}
                 onClick={() => setOpen(false)}
               />
-              
+
               {/* Menu Panel */}
               <motion.div
                 className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white shadow-xl md:hidden"
@@ -149,10 +281,12 @@ export default function Navbar() {
               >
                 <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white">
-                      <FiBarChart2 size={20} />
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-linear-to-br from-blue-600 to-blue-700 text-white">
+                      ₹
                     </div>
-                    <span className="text-lg font-bold text-gray-900">FinanceTracker</span>
+                    <span className="text-lg font-bold text-gray-900">
+                      FinanceTracker
+                    </span>
                   </div>
                   <button
                     onClick={() => setOpen(false)}
@@ -165,12 +299,37 @@ export default function Navbar() {
 
                 <div className="h-[calc(100vh-64px)] overflow-y-auto px-6 py-4">
                   {/* User Profile */}
-                  <div className="mb-6 flex items-center gap-3 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 p-4">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                  <div className="mb-6 flex items-center gap-3 rounded-xl bg-linear-to-r from-blue-50 to-indigo-50 p-4">
+                    <Avatar className="h-12 w-12 border-2 border-white">
+                      <AvatarImage
+                        src={user?.avatarUrl || ""}
+                        alt={user?.name || "User"}
+                      />
+                      <AvatarFallback className="bg-linear-to-r from-blue-400 to-blue-600 text-white">
+                        {getUserInitials()}
+                      </AvatarFallback>
+                    </Avatar>
                     <div>
-                      <p className="font-medium text-gray-900">John Doe</p>
-                      <p className="text-sm text-gray-600">Premium User</p>
+                      <p className="font-medium text-gray-900">
+                        {user?.name || "Loading..."}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {meLoading ? "Loading..." : user?.email || "Free Plan"}
+                      </p>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="ml-auto rounded-full"
+                    >
+                      <MdOutlineNotifications
+                        size={20}
+                        className="text-gray-600"
+                      />
+                      <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                        3
+                      </span>
+                    </Button>
                   </div>
 
                   {/* Navigation Links */}
@@ -188,9 +347,11 @@ export default function Navbar() {
                               : "text-gray-700 hover:bg-gray-50"
                           }`}
                         >
-                          <Icon 
-                            size={20} 
-                            className={active ? "text-blue-600" : "text-gray-500"} 
+                          <Icon
+                            size={20}
+                            className={
+                              active ? "text-blue-600" : "text-gray-500"
+                            }
                           />
                           {item.label}
                           {active && (
@@ -201,16 +362,54 @@ export default function Navbar() {
                     })}
                   </nav>
 
+                  {/* Mobile User Menu */}
+                  <div className="mt-6 border-t border-gray-100 pt-6">
+                    <div className="space-y-1">
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      >
+                        <FiUser size={18} className="text-gray-500" />
+                        Profile
+                      </Link>
+                      <Link
+                        href="/settings"
+                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      >
+                        <FiSettings size={18} className="text-gray-500" />
+                        Settings
+                      </Link>
+                      <Link
+                        href="/billing"
+                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                      >
+                        <FiCreditCard size={18} className="text-gray-500" />
+                        Billing
+                      </Link>
+                    </div>
+
+                    <button
+                      onClick={handleLogout}
+                      disabled={isLoggingOut}
+                      className="mt-4 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                    >
+                      <FiLogOut size={18} />
+                      {isLoggingOut ? "Logging out..." : "Log out"}
+                    </button>
+                  </div>
+
                   {/* Mobile Footer */}
                   <div className="absolute bottom-0 left-0 right-0 border-t border-gray-100 p-6">
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-600">Total Balance</p>
-                        <p className="text-lg font-bold text-gray-900">$12,456.78</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          $12,456.78
+                        </p>
                       </div>
-                      <button className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700">
+                      <Button className="bg-blue-600 hover:bg-blue-700">
                         Add Funds
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
