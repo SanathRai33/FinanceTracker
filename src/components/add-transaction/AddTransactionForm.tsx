@@ -1,9 +1,46 @@
 // app/components/add-transaction/AddTransactionForm.tsx
-
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAddTransaction } from "@/src/hooks/useTransactions";
+
+const INCOME_CATEGORIES = [
+  "Salary",
+  "Freelance",
+  "Investment",
+  "Dividend",
+  "Rental Income",
+  "Business",
+  "Bonus",
+  "Gift",
+  "Other Income",
+];
+
+const EXPENSE_CATEGORIES = [
+  "Food & Dining",
+  "Rent/Mortgage",
+  "Utilities",
+  "Transportation",
+  "Shopping",
+  "Entertainment",
+  "Healthcare",
+  "Education",
+  "Insurance",
+  "Subscriptions",
+  "Debt Payment",
+  "Travel",
+  "Grocery",
+  "Other Expense",
+];
+
+const TRANSFER_CATEGORIES = [
+  "Savings Account",
+  "Checking Account",
+  "Investment Account",
+  "Credit Card",
+  "Cash Withdrawal",
+  "Other Transfer",
+];
 
 export function AddTransactionForm() {
   const addTransaction = useAddTransaction();
@@ -18,6 +55,21 @@ export function AddTransactionForm() {
     needWant: "N/A",
     notes: "",
   });
+  const [categoryOptions, setCategoryOptions] = useState(EXPENSE_CATEGORIES);
+
+  // Update categories when type changes
+  useEffect(() => {
+    if (form.type === "Income") {
+      setCategoryOptions(INCOME_CATEGORIES);
+      setForm((prev) => ({ ...prev, category: "" }));
+    } else if (form.type === "Expense") {
+      setCategoryOptions(EXPENSE_CATEGORIES);
+      setForm((prev) => ({ ...prev, category: "" }));
+    } else if (form.type === "Transfer") {
+      setCategoryOptions(TRANSFER_CATEGORIES);
+      setForm((prev) => ({ ...prev, category: "" }));
+    }
+  }, [form.type]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -46,7 +98,7 @@ export function AddTransactionForm() {
     // Validate and transform amount
     const amount = parseFloat(form.amount);
     if (isNaN(amount) || amount < 0) {
-      return; // Form validation should prevent this, but just in case
+      return;
     }
 
     // Ensure paymentMethod is valid (default to "other" if empty or invalid)
@@ -59,6 +111,7 @@ export function AddTransactionForm() {
       type: form.type.toLowerCase(),
       amount: amount,
       description: form.description.trim() || undefined,
+      category: form.category || undefined, // Include category if selected
       paymentMethod: paymentMethod,
       recurring: form.recurring === "Yes",
       needOrWant: needWantMap[form.needWant] || "n/a",
@@ -68,8 +121,6 @@ export function AddTransactionForm() {
     if (form.notes.trim()) {
       payload.notes = form.notes.trim();
     }
-
-    // categoryId will be handled later when categories are properly integrated
 
     addTransaction.mutate(payload, {
       onSuccess: () => {
@@ -121,9 +172,9 @@ export function AddTransactionForm() {
               onChange={handleChange}
               className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
             >
-              <option>Income</option>
-              <option>Expense</option>
-              <option>Transfer</option>
+              <option value="Income">Income</option>
+              <option value="Expense">Expense</option>
+              <option value="Transfer">Transfer</option>
             </select>
           </div>
         </div>
@@ -139,12 +190,14 @@ export function AddTransactionForm() {
               value={form.category}
               onChange={handleChange}
               className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              required
             >
-              <option value="">Select category</option>
-              <option>Salary</option>
-              <option>Food</option>
-              <option>Rent</option>
-              <option>Shopping</option>
+              <option value="">Select {form.type.toLowerCase()} category</option>
+              {categoryOptions.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
           <div>

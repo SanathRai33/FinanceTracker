@@ -1,4 +1,4 @@
-// hooks/useTransactions.ts
+// src/hooks/useTransactions.ts
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,23 +14,56 @@ export function useTransactions() {
   });
 }
 
-export function useTransactionById(id?: string) {
+export function useTransactionsByMonth(year: number, month: number) {
   return useQuery({
-    queryKey: ["transactions", id],
+    queryKey: ["transactions", "month", year, month],
     queryFn: async () => {
-      const { data } = await apiClient.get(`/transactions/${id}`);
-      return data.transaction;
+      const { data } = await apiClient.get(`/transactions/by-month?year=${year}&month=${month}`);
+      return data.transactions;
     },
-    enabled: !!id,
   });
 }
 
+export function useTransactionsByType(type: "income" | "expense" | "transfer" | "all") {
+  if (type === "all") return useTransactions();
+  
+  return useQuery({
+    queryKey: ["transactions", "type", type],
+    queryFn: async () => {
+      const { data } = await apiClient.get(`/transactions/by-type/${type}`);
+      return data.transactions;
+    },
+  });
+}
+
+export function useTransactionsByCategory(categoryId: string) {
+  return useQuery({
+    queryKey: ["transactions", "category", categoryId],
+    queryFn: async () => {
+      const { data } = await apiClient.get(`/transactions/by-category/${categoryId}`);
+      return data.transactions;
+    },
+    enabled: !!categoryId,
+  });
+}
+
+export function useRecurringTransactions() {
+  return useQuery({
+    queryKey: ["transactions", "recurring"],
+    queryFn: async () => {
+      const { data } = await apiClient.get("/transactions/recurring");
+      return data.transactions;
+    },
+  });
+}
+
+// Mutations (no change needed)
 export function useAddTransaction() {
   const qc = useQueryClient();
   return useMutation({
     mutationKey: ["transactions", "add"],
     mutationFn: async (payload: any) => {
-      const { data } = await apiClient.post("/transactions/", payload);
+      const { data } = await apiClient.post("/transactions", payload);
       return data.transaction;
     },
     onSuccess: () => {
@@ -73,8 +106,7 @@ export function useDeleteTransaction() {
   });
 }
 
-// extra analytics
-
+// Dashboard & Analytics (already wired)
 export function useDashboardStats() {
   return useQuery({
     queryKey: ["dashboard", "stats"],
