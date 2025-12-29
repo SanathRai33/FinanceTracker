@@ -30,7 +30,7 @@ export function useAddTransaction() {
   return useMutation({
     mutationKey: ["transactions", "add"],
     mutationFn: async (payload: any) => {
-      const { data } = await apiClient.post("/transactions", payload);
+      const { data } = await apiClient.post("/transactions/", payload);
       return data.transaction;
     },
     onSuccess: () => {

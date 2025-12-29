@@ -3,8 +3,10 @@
 "use client";
 
 import { useState } from "react";
+import { useAddTransaction } from "@/src/hooks/useTransactions";
 
 export function AddTransactionForm() {
+  const addTransaction = useAddTransaction();
   const [form, setForm] = useState({
     date: "",
     type: "Income",
@@ -26,8 +28,65 @@ export function AddTransactionForm() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: hook this to backend / server actions
-    console.log(form);
+    
+    // Transform form data to match backend schema
+    const paymentMethodMap: Record<string, string> = {
+      "Cash": "cash",
+      "Card": "card",
+      "Bank Transfer": "bank",
+      "UPI": "wallet",
+    };
+
+    const needWantMap: Record<string, string> = {
+      "N/A": "n/a",
+      "Need": "need",
+      "Want": "want",
+    };
+
+    // Validate and transform amount
+    const amount = parseFloat(form.amount);
+    if (isNaN(amount) || amount < 0) {
+      return; // Form validation should prevent this, but just in case
+    }
+
+    // Ensure paymentMethod is valid (default to "other" if empty or invalid)
+    const paymentMethod = form.paymentMethod 
+      ? (paymentMethodMap[form.paymentMethod] || "other")
+      : "other";
+
+    const payload: any = {
+      date: new Date(form.date).toISOString(),
+      type: form.type.toLowerCase(),
+      amount: amount,
+      description: form.description.trim() || undefined,
+      paymentMethod: paymentMethod,
+      recurring: form.recurring === "Yes",
+      needOrWant: needWantMap[form.needWant] || "n/a",
+    };
+
+    // Only include notes if it has a value
+    if (form.notes.trim()) {
+      payload.notes = form.notes.trim();
+    }
+
+    // categoryId will be handled later when categories are properly integrated
+
+    addTransaction.mutate(payload, {
+      onSuccess: () => {
+        // Reset form on success
+        setForm({
+          date: "",
+          type: "Income",
+          category: "",
+          amount: "",
+          description: "",
+          paymentMethod: "",
+          recurring: "No",
+          needWant: "N/A",
+          notes: "",
+        });
+      },
+    });
   }
 
   return (
@@ -187,13 +246,28 @@ export function AddTransactionForm() {
           />
         </div>
 
+        {/* Error Message */}
+        {addTransaction.isError && (
+          <div className="rounded-lg bg-red-50 p-3 text-xs text-red-600 sm:text-sm">
+            Failed to save transaction. Please try again.
+          </div>
+        )}
+
+        {/* Success Message */}
+        {addTransaction.isSuccess && (
+          <div className="rounded-lg bg-emerald-50 p-3 text-xs text-emerald-600 sm:text-sm">
+            Transaction saved successfully!
+          </div>
+        )}
+
         {/* Submit */}
         <div>
           <button
             type="submit"
-            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm cursor-pointer"
+            disabled={addTransaction.isPending}
+            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
           >
-            Save Transaction
+            {addTransaction.isPending ? "Saving..." : "Save Transaction"}
           </button>
         </div>
       </form>
