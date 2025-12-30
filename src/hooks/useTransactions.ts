@@ -9,7 +9,8 @@ export function useTransactions() {
     queryKey: ["transactions", "all"],
     queryFn: async () => {
       const { data } = await apiClient.get("/transactions");
-      return data.transactions;
+      console.log(data)
+      return data.transactions || data;
     },
   });
 }
