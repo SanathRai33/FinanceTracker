@@ -125,7 +125,7 @@ export function TransactionsTable({ transactions, onDelete, onEdit }: Props) {
                 <td className="p-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => onEdit(tx)}  // ✅ passes full transaction
+                      onClick={() => onEdit(tx)} 
                       className="text-blue-600 bg-blue-200 hover:bg-blue-300 p-2 rounded-md hover:text-blue-900 flex items-center justify-center gap-1 text-xs"
                       title="Edit transaction"
                     >
@@ -133,7 +133,7 @@ export function TransactionsTable({ transactions, onDelete, onEdit }: Props) {
                       <span>Edit</span>
                     </button>
                     <button
-                      onClick={() => onDelete(tx._id)}  // ✅ passes correct ID
+                      onClick={() => onDelete(tx._id)} 
                       className="text-rose-600 bg-red-200 hover:bg-red-300 p-2 rounded-md hover:text-rose-900 flex items-center justify-center gap-1 text-xs"
                       title="Delete transaction"
                     >
