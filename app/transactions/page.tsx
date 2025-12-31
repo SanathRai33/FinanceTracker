@@ -1,17 +1,35 @@
 // app/transactions/page.tsx
 "use client";
 
-import { useTransactions, useTransactionsByType, useTransactionsByMonth } from "@/src/hooks/useTransactions";
+import { useTransactions } from "@/src/hooks/useTransactions";
 import { TransactionsFilters } from "@/src/components/transactions/TransactionsFilters";
 import { TransactionsTable } from "@/src/components/transactions/TransactionsTable";
+import { useDeleteTransaction } from "@/src/hooks/useTransactions";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function TransactionsPage() {
   const { data: allTransactions, isLoading: loadingAll } = useTransactions();
-  const { data: incomeTx, isLoading: loadingIncome } = useTransactionsByType("income");
-  const { data: expenseTx, isLoading: loadingExpense } = useTransactionsByType("expense");
+  const deleteTx = useDeleteTransaction();
 
-  const currentMonthTx = useTransactionsByMonth(new Date().getFullYear(), new Date().getMonth() + 1);
+  // ✅ Delete handler
+  const handleDelete = (id: string) => {
+    if (confirm("Are you sure you want to delete this transaction?")) {
+      deleteTx.mutate(id, {
+        onSuccess: () => {
+          toast.success("Transaction deleted successfully!");
+        },
+        onError: () => {
+          toast.error("Failed to delete transaction");
+        },
+      });
+    }
+  };
+
+  // ✅ Edit handler (placeholder for now)
+  const handleEdit = (transaction: any) => {
+    alert("Edit functionality coming soon!");
+  };
 
   if (loadingAll) {
     return (
@@ -23,7 +41,7 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 ">
+    <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 min-h-full">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex items-center justify-between">
           <div>
@@ -43,8 +61,12 @@ export default function TransactionsPage() {
         </div>
 
         <TransactionsFilters />
-
-        <TransactionsTable transactions={allTransactions || []} />
+        {/* ✅ NOW with required props */}
+        <TransactionsTable
+          transactions={allTransactions || []}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
       </div>
     </div>
   );

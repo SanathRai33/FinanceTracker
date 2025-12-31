@@ -9,7 +9,6 @@ export function useTransactions() {
     queryKey: ["transactions", "all"],
     queryFn: async () => {
       const { data } = await apiClient.get("/transactions");
-      console.log(data)
       return data.transactions || data;
     },
   });
@@ -92,6 +91,7 @@ export function useUpdateTransaction(id: string) {
   });
 }
 
+// src/hooks/useTransactions.ts
 export function useDeleteTransaction() {
   const qc = useQueryClient();
   return useMutation({
@@ -99,13 +99,40 @@ export function useDeleteTransaction() {
     mutationFn: async (id: string) => {
       await apiClient.delete(`/transactions/${id}`);
     },
-    onSuccess: () => {
+    // ✅ Optimistic update: remove from ALL transaction lists instantly
+    onMutate: async (id: string) => {
+      // Cancel outgoing refetches
+      await qc.cancelQueries({ queryKey: ["transactions"] });
+      
+      // Snapshot previous data
+      const previousTransactions: any[] = qc.getQueryData(["transactions", "all"]) || [];
+      const previousDashboard: any[] = qc.getQueryData(["dashboard", "stats"]) || [];
+      
+      // Optimistically remove from lists
+      qc.setQueryData(["transactions", "all"], (old: any[] = []) => 
+        old.filter((tx: any) => tx._id !== id)
+      );
+      
+      // Invalidate dashboard stats (will refetch)
+      qc.invalidateQueries({ queryKey: ["dashboard"] });
+      
+      return { previousTransactions, previousDashboard };
+    },
+    onError: (err, id, context) => {
+      // Rollback on error
+      if (context?.previousTransactions) {
+        qc.setQueryData(["transactions", "all"], context.previousTransactions);
+      }
+    },
+    onSettled: () => {
+      // Always refetch fresh data
       qc.invalidateQueries({ queryKey: ["transactions"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
       qc.invalidateQueries({ queryKey: ["analytics"] });
     },
   });
 }
+
 
 // Dashboard & Analytics (already wired)
 export function useDashboardStats() {

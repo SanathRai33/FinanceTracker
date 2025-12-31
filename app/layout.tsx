@@ -7,6 +7,7 @@ import Footer from "../src/components/Footer";
 import QueryProvider from "../src/providers/QueryProvider";
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
+import { Toaster } from "sonner";
 
 const AUTH_FREE_ROUTES = ["/login"];
 
@@ -32,7 +33,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className="flex min-h-screen flex-col bg-slate-50">
         <QueryProvider>
-          <Shell>{children}</Shell>
+          <Shell>
+            {children}
+            <Toaster position="top-right" richColors />
+          </Shell>
         </QueryProvider>
       </body>
     </html>
