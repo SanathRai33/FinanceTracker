@@ -16,7 +16,7 @@ const accentMap: Record<NonNullable<Props["accent"]>, string> = {
   purple: "text-indigo-500 bg-indigo-50",
 };
 
-export default function AnalyticsStatCard({
+export function AnalyticsStatCard({
   label,
   amount,
   icon,

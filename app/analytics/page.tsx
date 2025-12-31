@@ -1,67 +1,89 @@
 // app/analytics/page.tsx
+"use client";
 
-import AnalyticsStatCard from "../../src/components/analytics/AnalyticsStatCard";
-import { BalanceOverTime } from "../../src/components/analytics/BalanceOverTime";
-import { ExpenseSavingsBreakdown } from "../../src/components/analytics/ExpenseSavingsBreakdown";
-import { NeedWantBreakdown } from "../../src/components/analytics/NeedWantBreakdown";
-
-// replace with react-icons if you like
-function MiniIcon() {
-  return <span className="text-xs">📈</span>;
-}
+import { BalanceOverTime } from "@/src/components/analytics/BalanceOverTime";
+import { ExpenseSavingsBreakdown } from "@/src/components/analytics/ExpenseSavingsBreakdown";
+import { NeedWantBreakdown } from "@/src/components/analytics/NeedWantBreakdown";
+import { AnalyticsStatCard } from "@/src/components/analytics/AnalyticsStatCard";
+import { 
+  useBalanceOverTime, 
+  useExpenseSavingsBreakdown, 
+  useNeedWantBreakdown, 
+  useAnalyticsStats 
+} from "@/src/hooks/useAnalytics";
+import { Loader2 } from "lucide-react";
 
 export default function AnalyticsPage() {
+  const { data: balanceData, isLoading: balanceLoading } = useBalanceOverTime();
+  const { data: expenseData, isLoading: expenseLoading } = useExpenseSavingsBreakdown();
+  const { data: needWantData, isLoading: needWantLoading } = useNeedWantBreakdown();
+  const { data: statsData, isLoading: statsLoading } = useAnalyticsStats();
+
+  const isLoading = balanceLoading || expenseLoading || needWantLoading || statsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="p-8 text-center bg-blue-50 min-h-screen flex flex-col items-center justify-center">
+        <Loader2 className="mx-auto h-8 w-8 animate-spin text-slate-400" />
+        <p className="mt-2 text-sm text-slate-500">Loading analytics...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
-        {/* Title */}
-        <div className="text-xs sm:text-sm">
-          <h1 className="font-semibold text-slate-800 lg:text-[28px] md:text-sm text-sm sm:text-sm">
-            Analytics &amp; Charts
-          </h1>
+    <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 min-h-full">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-slate-900">Analytics</h1>
+          <p className="text-slate-600 mt-2">Detailed insights into your financial activity</p>
         </div>
 
-        {/* Top stats row */}
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          <AnalyticsStatCard
-            label="Total Income"
-            amount="$0"
-            icon={<MiniIcon />}
-            accent="green"
+        {/* Stats Cards */}
+        <div className="grid gap-6 mb-8 lg:grid-cols-2 xl:grid-cols-4">
+          <AnalyticsStatCard 
+            label="Total Income" 
+            value={statsData?.find((s: any) => s._id === "income")?.total || 0}
+            change="+12.5%"
+            trend="up"
           />
-          <AnalyticsStatCard
-            label="Total Expenses"
-            amount="$0"
-            icon={<MiniIcon />}
-            accent="red"
+          <AnalyticsStatCard 
+            label="Total Expenses" 
+            value={statsData?.find((s: any) => s._id === "expense")?.total || 0}
+            change="-3.2%"
+            trend="down"
           />
-          <AnalyticsStatCard
-            label="Total Savings"
-            amount="$0"
-            icon={<MiniIcon />}
-            accent="blue"
+          <AnalyticsStatCard 
+            label="Transactions Count" 
+            value={statsData?.reduce((sum: number, s: any) => sum + s.count, 0) || 0}
+            change="+5%"
+            trend="up"
           />
-          <AnalyticsStatCard
-            label="Debt Given"
-            amount="$0"
-            icon={<MiniIcon />}
-            accent="orange"
-          />
-          <AnalyticsStatCard
-            label="Net Balance"
-            amount="$0"
-            icon={<MiniIcon />}
-            accent="purple"
+          <AnalyticsStatCard 
+            label="Avg Transaction" 
+            value={statsData?.reduce((sum: number, s: any) => sum + s.avg, 0) || 0}
+            change="+8.1%"
+            trend="up"
           />
         </div>
 
-        {/* Balance chart */}
-        <BalanceOverTime />
-
-        {/* Bottom two charts */}
-        <div className="grid gap-4 lg:grid-cols-2">
-          <ExpenseSavingsBreakdown />
-          <NeedWantBreakdown />
+        {/* Charts */}
+        <div className="grid gap-8 lg:grid-cols-2">
+          <BalanceOverTime data={balanceData || []} />
+          <ExpenseSavingsBreakdown 
+            totalIncome={expenseData?.totalIncome || 0}
+            totalExpense={expenseData?.totalExpense || 0}
+            savings={expenseData?.savings || 0}
+          />
+          <NeedWantBreakdown data={needWantData || []} />
+          <div className="lg:col-span-2">
+            {/* Future chart space */}
+            <div className="h-64 bg-white rounded-xl p-8 flex items-center justify-center border-2 border-dashed border-slate-200">
+              <div className="text-center">
+                <span className="text-3xl mb-2">📈</span>
+                <p className="text-slate-500">More charts coming soon</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
