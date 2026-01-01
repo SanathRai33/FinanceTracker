@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Calendar, Target, CheckCircle } from "lucide-react";
 import { useDeleteGoal } from "@/src/hooks/useSavingsGoals";
+import { PRODUCTS } from "@/src/constants/products";
 
 interface Props {
   goal: Goal;
@@ -17,7 +18,7 @@ export function GoalsListItem({ goal }: Props) {
 
   const progress = (goal.currentAmount / goal.targetAmount) * 100;
   const isCompleted = progress >= 100;
-
+  
   return (
     <div className="group bg-white rounded-xl p-6 shadow-sm ring-1 ring-slate-200 hover:shadow-md transition-all duration-200 hover:-translate-y-1">
       <div className="flex items-start justify-between mb-4">
@@ -44,7 +45,7 @@ export function GoalsListItem({ goal }: Props) {
         </div>
         <div className="h-12 w-12 flex items-center justify-center rounded-md border border-slate-200 p-1 bg-slate-50 shadow-md overflow-hidden">
           <img
-            src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQnuYkYw3WeVTOFgTzRHRUFeSC21mkO-5nr1-lv9I5XoNpnQu-1eq5gwV_NYEdQZ5k1IjjbzRD6C2ZG2Hm1nroEgjgLxCnGjsUCA_EnmrlTXCogqC8oind5"
+            src={PRODUCTS[`${goal.name.toUpperCase()}_IMAGE` as keyof typeof PRODUCTS]}
             alt="Target"
             className="h-full object-cover"
           />

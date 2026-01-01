@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { X } from "lucide-react";
 
 interface Props {
   isOpen: boolean;
@@ -74,8 +73,10 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
                 <SelectItem value="travel">Travel</SelectItem>
                 <SelectItem value="education">Education</SelectItem>
                 <SelectItem value="house">House</SelectItem>
-                <SelectItem value="car">Car</SelectItem>
+                <SelectItem value="vehicle">Vehicle</SelectItem>
                 <SelectItem value="investment">Investment</SelectItem>
+                <SelectItem value="electronics">Electronics</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
