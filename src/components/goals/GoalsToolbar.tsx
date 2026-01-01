@@ -1,17 +1,27 @@
-// app/components/goals/GoalsToolbar.tsx
+// src/components/goals/GoalsToolbar.tsx
+"use client";
 
-export function GoalsToolbar() {
-    return (
-      <div className="mb-3 flex flex-col items-start justify-between gap-3 text-xs sm:mb-4 sm:flex-row sm:items-center sm:text-sm">
-        <h1 className="font-semibold text-slate-800 lg:text-[28px] md:text-sm text-sm sm:text-sm">
-          Savings Goal Tracker
-        </h1>
-  
-        <button className="inline-flex items-center gap-1 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:text-sm cursor-pointer">
-          <span className="text-base leading-none">+</span>
-          <span>Add Goal</span>
-        </button>
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+
+interface Props {
+  onCreateGoal: () => void;
+}
+
+export function GoalsToolbar({ onCreateGoal }: Props) {
+  return (
+    <div className="flex items-center justify-between">
+      <div>
+        <h1 className="text-3xl font-bold text-slate-900">Savings Goals</h1>
+        <p className="text-slate-600 mt-1">Track your financial milestones</p>
       </div>
-    );
-  }
-  
+      <Button 
+        onClick={onCreateGoal}
+        className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2"
+      >
+        <Plus className="h-4 w-4" />
+        New Goal
+      </Button>
+    </div>
+  );
+}
