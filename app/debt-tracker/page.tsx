@@ -1,15 +1,40 @@
 // app/debt-tracker/page.tsx
 
+"use client";
+
 import { DebtToolbar } from "../../src/components/debt/DebtToolbar";
 import { DebtEmptyState } from "../../src/components/debt/DebtEmptyState";
+import { useDebtRecords } from "../../src/hooks/useDebts";
+import { DebtCard } from "@/src/components/debt/DebtCard";
 
 export default function DebtTrackerPage() {
+  const { data: debts, isLoading, isError } = useDebtRecords();
+
+  const hasDebts = debts && debts.length > 0;
+
   return (
-    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
-        <DebtToolbar />
-        <DebtEmptyState />
-      </div>
+    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:p-8 space-y-4 min-h-screen">
+      <DebtToolbar />
+
+      {isLoading && (
+        <div className="text-sm text-slate-500">Loading debts...</div>
+      )}
+
+      {isError && (
+        <div className="text-sm text-red-600">
+          Failed to load debts. Please try again.
+        </div>
+      )}
+
+      {!isLoading && !isError && !hasDebts && <DebtEmptyState />}
+
+      {!isLoading && !isError && hasDebts && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-4 p-0 lg:px-10 lg:py-2">
+          {debts!.map((debt) => (
+           <DebtCard debt={debt} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

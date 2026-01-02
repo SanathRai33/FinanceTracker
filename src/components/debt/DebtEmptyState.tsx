@@ -2,12 +2,12 @@
 
 export function DebtEmptyState() {
     return (
-      <section className="rounded-2xl bg-white px-4 py-8 shadow-sm ring-1 ring-slate-100 sm:px-6 sm:py-10">
+      <section className="rounded-2xl bg-white px-4 py-8 shadow-sm ring-1 ring-slate-100 sm:px-6 sm:py-10 min-h-screen">
         <h2 className="mb-6 text-xs font-semibold text-slate-700 sm:text-sm">
           Debt Records
         </h2>
   
-        <div className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center">
+        <div className="mx-auto flex max-w-xl flex-col items-center gap-4 text-center ">
           {/* Icon circle */}
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-slate-50 text-slate-400">
             {/* simple placeholder icon; swap for react-icons if you like */}
