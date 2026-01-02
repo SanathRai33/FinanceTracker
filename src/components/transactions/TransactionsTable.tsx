@@ -1,11 +1,21 @@
 // src/components/transactions/TransactionsTable.tsx
+
 "use client";
 
 import { format } from "date-fns";
-import { FiTrash } from "react-icons/fi";
-import { FaPen } from "react-icons/fa";
+import { Trash2, Edit2, Download, FileText } from "lucide-react";
+import { exportToExcel, exportToPDF } from "@/src/utils/export-utils";
 
-type Transaction = {
+const paymentMethodLabels: Record<string, string> = {
+  credit_card: "💳 Credit Card",
+  debit_card: "🏧 Debit Card",
+  upi: "📱 UPI",
+  cash: "💵 Cash",
+  bank_transfer: "🏦 Bank Transfer",
+  wallet: "👛 Wallet",
+};
+
+interface Transaction {
   _id: string;
   date: string;
   type: "income" | "expense" | "transfer";
@@ -13,132 +23,209 @@ type Transaction = {
   amount: number;
   paymentMethod: string;
   recurring: boolean;
-  needOrWant: string;
+  needOrWant?: string;
   notes?: string;
   runningBalance?: number;
-};
-
-interface Props {
-  transactions: Transaction[];
-  onDelete: (id: string) => void;  // ✅ from parent
-  onEdit: (transaction: Transaction) => void;  // ✅ from parent
 }
 
-const typeColors: Record<string, string> = {
-  income: "text-emerald-600 bg-emerald-50",
-  expense: "text-rose-600 bg-rose-50",
-  transfer: "text-blue-600 bg-blue-50",
-};
+interface TransactionsTableProps {
+  transactions: Transaction[];
+  onDelete: (id: string) => void;
+  onEdit: (transaction: Transaction) => void;
+}
 
-const paymentMethodLabels: Record<string, string> = {
-  cash: "Cash",
-  card: "Card",
-  bank: "Bank",
-  wallet: "UPI",
-  other: "Other",
-};
+export function TransactionsTable({
+  transactions,
+  onDelete,
+  onEdit,
+}: TransactionsTableProps) {
+  // ✅ Handle Excel Export
+  const handleExportExcel = () => {
+    if (transactions.length === 0) {
+      alert("No transactions to export");
+      return;
+    }
+    const success = exportToExcel(transactions, "my_transactions");
+    if (success) {
+      alert("✅ Excel file downloaded successfully!");
+    } else {
+      alert("❌ Failed to export Excel file");
+    }
+  };
 
-const columns = [
-  "Date",
-  "Type",
-  "Description",
-  "Amount",
-  "Payment Method",
-  "Recurring",
-  "Need/Want",
-  "Notes",
-  "Balance",
-  "Actions",
-];
+  // ✅ Handle PDF Export
+  const handleExportPDF = () => {
+    if (transactions.length === 0) {
+      alert("No transactions to export");
+      return;
+    }
+    const success = exportToPDF(transactions, "my_transactions");
+    if (success) {
+      alert("✅ PDF file downloaded successfully!");
+    } else {
+      alert("❌ Failed to export PDF file");
+    }
+  };
 
-export function TransactionsTable({ transactions, onDelete, onEdit }: Props) {
-  if (!transactions.length) {
+  if (transactions.length === 0) {
     return (
-      <div className="rounded-xl bg-white p-12 text-center shadow-sm ring-1 ring-slate-200">
-        <div className="mx-auto h-16 w-16 rounded-full bg-slate-100 p-3">
-          <span className="text-2xl">📊</span>
-        </div>
-        <h3 className="mt-4 text-lg font-medium text-slate-900">No transactions</h3>
-        <p className="mt-1 text-sm text-slate-500">
-          No transactions match your filters. Add your first transaction to get started.
+      <div className="text-center py-12">
+        <p className="text-gray-500 text-lg mb-4">
+          No transactions match your filters. Add your first transaction to get
+          started.
         </p>
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={handleExportExcel}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition disabled:opacity-50"
+            disabled
+          >
+            <Download size={18} />
+            Export to Excel
+          </button>
+          <button
+            onClick={handleExportPDF}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition disabled:opacity-50"
+            disabled
+          >
+            <FileText size={18} />
+            Export to PDF
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl bg-white shadow-sm ring-1 ring-slate-200 overflow-hidden">
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-200">
+    <div className="space-y-4">
+      {/* ✅ Export Buttons */}
+      <div className="flex gap-3 justify-end bg-white p-4 rounded-lg border border-gray-200">
+        <button
+          onClick={handleExportExcel}
+          className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg hover:bg-green-100 transition font-medium"
+          title="Download as Excel file"
+        >
+          <Download size={18} />
+          Export to Excel
+        </button>
+        <button
+          onClick={handleExportPDF}
+          className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition font-medium"
+          title="Download as PDF file"
+        >
+          <FileText size={18} />
+          Export to PDF
+        </button>
+      </div>
+
+      {/* 📊 Table */}
+      <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+        <table className="w-full">
           <thead>
-            <tr>
-              {columns.map((col) => (
-                <th
-                  key={col}
-                  className="px-6 py-4 text-left text-xs font-medium text-slate-500 uppercase tracking-wider border-r-2"
-                >
-                  {col}
-                </th>
-              ))}
+            <tr className="border-b border-gray-200 bg-gray-50">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Date
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Type
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Description
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Amount
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Method
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Recurring
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Need/Want
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Notes
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Balance
+              </th>
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+                Actions
+              </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 bg-white">
+          <tbody>
             {transactions.map((tx) => (
-              <tr key={tx._id} className="hover:bg-slate-50">
-                <td className="whitespace-nowrap px-6 py-4 text-sm text-slate-900 border-r-2">
+              <tr
+                key={tx._id}
+                className="border-b border-gray-200 hover:bg-gray-50 transition text-center"
+              >
+                <td className="px-6 py-4 text-sm text-gray-900 border">
                   {format(new Date(tx.date), "MMM dd, yyyy")}
                 </td>
-                <td className="px-6 py-4 border-r-2">
-                  <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${typeColors[tx.type]}`}>
-                    {tx.type}
+                <td className="px-6 py-4 text-sm">
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                      tx.type === "income"
+                        ? "bg-green-100 text-green-700"
+                        : tx.type === "expense"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-blue-100 text-blue-700"
+                    }`}
+                  >
+                    {tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-sm font-medium text-slate-900 max-w-xs truncate border-r-2">
+                <td className="px-6 py-4 text-sm text-gray-700 border">
                   {tx.description}
                 </td>
-                <td className="px-6 py-4 text-sm font-semibold text-slate-900 border-r-2">
-                  <span className={tx.type === "income" ? "text-emerald-600" : "text-rose-600"}>
-                    {tx.type === "income" ? "+ " : "- "}₹{tx.amount.toLocaleString()}
-                  </span>
+                <td
+                  className={`px-6 py-4 text-sm font-semibold border ${
+                    tx.type === "income" ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {tx.type === "income" ? "+ " : "- "}₹
+                  {tx.amount.toLocaleString()}
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-700 capitalize border-r-2">
+                <td className="px-6 py-4 text-sm text-gray-700 border">
                   {paymentMethodLabels[tx.paymentMethod] || tx.paymentMethod}
                 </td>
-                <td className="px-6 py-4 border-r-2">
+                <td className="px-6 py-4 text-sm text-center border">
                   {tx.recurring ? (
-                    <span className="inline-flex rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-700">
+                    <span className="text-green-600 font-semibold">
                       🔄 Recurring
                     </span>
                   ) : (
-                    <span className="text-xs text-slate-400">One-time</span>
+                    <span className="text-gray-500">One-time</span>
                   )}
                 </td>
-                <td className="px-6 py-4 text-sm capitalize text-slate-700 border-r-2">
+                <td className="px-6 py-4 text-sm text-gray-700 border">
                   {tx.needOrWant === "n/a" ? "-" : tx.needOrWant}
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-500 max-w-xs truncate border-r-2">
+                <td className="px-6 py-4 text-sm text-gray-700 border">
                   {tx.notes || "-"}
                 </td>
-                <td className="px-6 py-4 text-sm text-slate-700 border-r-2">
-                  {tx.runningBalance ? `₹${tx.runningBalance.toLocaleString()}` : "-"}
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900 border">
+                  {tx.runningBalance
+                    ? `₹${tx.runningBalance.toLocaleString()}`
+                    : "-"}
                 </td>
-                <td className="p-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div className="flex items-center gap-2">
+                <td className="px-6 py-4 text-center border">
+                  <div className="flex gap-2 justify-center">
                     <button
-                      onClick={() => onEdit(tx)} 
-                      className="text-blue-600 bg-blue-200 hover:bg-blue-300 p-2 rounded-md hover:text-blue-900 flex items-center justify-center gap-1 text-xs"
+                      onClick={() => onEdit(tx)}
+                      className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
                       title="Edit transaction"
                     >
-                      <FaPen />
-                      <span>Edit</span>
+                      <Edit2 size={16} />
                     </button>
                     <button
-                      onClick={() => onDelete(tx._id)} 
-                      className="text-rose-600 bg-red-200 hover:bg-red-300 p-2 rounded-md hover:text-rose-900 flex items-center justify-center gap-1 text-xs"
+                      onClick={() => onDelete(tx._id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                       title="Delete transaction"
                     >
-                      <FiTrash />
-                      <span>Delete</span>
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </td>
@@ -146,6 +233,36 @@ export function TransactionsTable({ transactions, onDelete, onEdit }: Props) {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Summary Stats */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white p-4 rounded-lg border border-gray-200">
+          <p className="text-sm text-gray-600 mb-2">Total Transactions</p>
+          <p className="text-2xl font-bold text-gray-900">
+            {transactions.length}
+          </p>
+        </div>
+        <div className="bg-green-100 p-4 rounded-lg border border-green-300">
+          <p className="text-sm text-green-700 mb-2">Total Income</p>
+          <p className="text-2xl font-bold text-green-700">
+            ₹
+            {transactions
+              .filter((tx) => tx.type === "income")
+              .reduce((sum, tx) => sum + tx.amount, 0)
+              .toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-red-50 p-4 rounded-lg border border-red-200">
+          <p className="text-sm text-red-700 mb-2">Total Expenses</p>
+          <p className="text-2xl font-bold text-red-700">
+            ₹
+            {transactions
+              .filter((tx) => tx.type === "expense")
+              .reduce((sum, tx) => sum + tx.amount, 0)
+              .toLocaleString()}
+          </p>
+        </div>
       </div>
     </div>
   );
