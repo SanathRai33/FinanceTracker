@@ -5,6 +5,7 @@
 import { format } from "date-fns";
 import { Trash2, Edit2, Download, FileText } from "lucide-react";
 import { exportToExcel, exportToPDF } from "@/src/utils/export-utils";
+import { toast } from "sonner";
 
 const paymentMethodLabels: Record<string, string> = {
   credit_card: "💳 Credit Card",
@@ -42,28 +43,28 @@ export function TransactionsTable({
   // ✅ Handle Excel Export
   const handleExportExcel = () => {
     if (transactions.length === 0) {
-      alert("No transactions to export");
+      toast.warning("No transactions to export");
       return;
     }
     const success = exportToExcel(transactions, "my_transactions");
     if (success) {
-      alert("✅ Excel file downloaded successfully!");
+      toast.success("✅ Excel file downloaded successfully!");
     } else {
-      alert("❌ Failed to export Excel file");
+      toast.error("❌ Failed to export Excel file");
     }
   };
 
   // ✅ Handle PDF Export
   const handleExportPDF = () => {
     if (transactions.length === 0) {
-      alert("No transactions to export");
+      toast.warning("No transactions to export");
       return;
     }
     const success = exportToPDF(transactions, "my_transactions");
     if (success) {
-      alert("✅ PDF file downloaded successfully!");
+      toast.success("✅ PDF file downloaded successfully!");
     } else {
-      alert("❌ Failed to export PDF file");
+      toast.error("❌ Failed to export PDF file");
     }
   };
 

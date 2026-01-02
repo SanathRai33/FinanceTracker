@@ -2,33 +2,62 @@
 
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useTransactions, useTransactionsByType, useTransactionsByMonth } from "@/src/hooks/useTransactions";
+import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import {
+  useTransactions,
+  useTransactionsByType,
+  useTransactionsByMonth,
+  useDeleteTransaction,
+  useUpdateTransaction,
+} from "@/src/hooks/useTransactions";
 import { TransactionsFilters } from "@/src/components/transactions/TransactionsFilters";
 import { TransactionsTable } from "@/src/components/transactions/TransactionsTable";
-import { useDeleteTransaction } from "@/src/hooks/useTransactions";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
+type TransactionType = "income" | "expense" | "transfer";
+
+interface Transaction {
+  _id: string;
+  date: string;
+  type: TransactionType;
+  description: string;
+  amount: number;
+  categoryId?: string;
+  paymentMethod: string;
+  recurring: boolean;
+  needOrWant?: string;
+  notes?: string;
+  runningBalance?: number;
+}
 
 export default function TransactionsPage() {
+  const router = useRouter();
   const searchParams = useSearchParams();
 
-  // ✅ Read URL params for dynamic filtering
-  const typeFilter = searchParams.get("type") || "all";
+  const typeFilter = (searchParams.get("type") || "all") as
+    | TransactionType
+    | "all";
   const monthFilter = searchParams.get("month");
   const categoryFilter = searchParams.get("category");
 
-  // ✅ Fetch all transactions
   const { data: allTransactions, isLoading: loadingAll } = useTransactions();
 
-  // ✅ Use filtered queries based on active filters
   const { data: filteredTransactions, isLoading: loadingFiltered } =
     typeFilter !== "all"
-      ? useTransactionsByType(typeFilter as any)
+      ? useTransactionsByType(typeFilter as TransactionType)
       : monthFilter
-      ? useTransactionsByMonth(2025, parseInt(monthFilter))
+      ? useTransactionsByMonth(2025, parseInt(monthFilter, 10))
       : useTransactions();
 
   const deleteTx = useDeleteTransaction();
+
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
+
+  // Attach mutation for the currently editing transaction
+  const updateTx = useUpdateTransaction(editingTransaction?._id || "");
 
   const handleDelete = (id: string) => {
     if (confirm("Are you sure you want to delete this transaction?")) {
@@ -36,15 +65,54 @@ export default function TransactionsPage() {
     }
   };
 
-  const handleEdit = (transaction: any) => {
-    console.log("Edit transaction:", transaction);
-    alert("Edit functionality coming soon!");
+  const handleEdit = (transaction: Transaction) => {
+    setEditingTransaction(transaction);
   };
 
-  // ✅ Decide which transactions to show
-  const transactionsToShow = filteredTransactions || allTransactions || [];
+  const handleEditChange = (
+    field: keyof Transaction,
+    value: string | number | boolean
+  ) => {
+    if (!editingTransaction) return;
+    setEditingTransaction({
+      ...editingTransaction,
+      [field]: value,
+    });
+  };
 
-  // ✅ Loading state
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingTransaction?._id) return;
+
+    // Build payload – keep it minimal and aligned with backend
+    const payload = {
+      date: editingTransaction.date,
+      type: editingTransaction.type,
+      description: editingTransaction.description,
+      amount: editingTransaction.amount,
+      categoryId: editingTransaction.categoryId,
+      paymentMethod: editingTransaction.paymentMethod,
+      recurring: editingTransaction.recurring,
+      needOrWant: editingTransaction.needOrWant,
+      notes: editingTransaction.notes,
+    };
+
+    updateTx.mutate(payload, {
+      onSuccess: () => {
+        toast.success("Transaction updated successfully");
+        setEditingTransaction(null);
+      },
+      onError: () => {
+        toast.error("Failed to update transaction");
+      },
+    });
+  };
+
+  const handleEditCancel = () => {
+    setEditingTransaction(null);
+  };
+
+  const transactionsToShow = filteredTransactions || allTransactions || [];
   const isLoading = loadingFiltered || loadingAll;
 
   if (isLoading) {
@@ -60,27 +128,130 @@ export default function TransactionsPage() {
 
   return (
     <div className="space-y-6 p-6 bg-blue-50">
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          💰 My Transactions
-        </h1>
-        <p className="text-gray-600">
-          {transactionsToShow.length} transactions found
-          {typeFilter !== "all" && ` (${typeFilter})`}
-          {monthFilter && ` (Month ${monthFilter})`}
-        </p>
+      <div className="mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            My Transactions
+          </h1>
+          <p className="text-gray-600">
+            {transactionsToShow.length} transactions found
+            {typeFilter !== "all" && ` (${typeFilter})`}
+            {monthFilter && ` (Month ${monthFilter})`}
+            {categoryFilter && ` (Category ${categoryFilter})`}
+          </p>
+        </div>
+        <div>
+          <button
+            onClick={() => router.push("/add-transaction")}
+            className="flex items-center justify-center rounded-md bg-blue-600 p-2 text-white shadow-sm transition hover:bg-blue-700 cursor-pointer"
+          >
+            + New Transaction
+          </button>
+        </div>
       </div>
 
-      {/* Filters Section */}
       <TransactionsFilters />
 
-      {/* Table Section - Now includes export buttons */}
       <TransactionsTable
         transactions={transactionsToShow}
         onDelete={handleDelete}
         onEdit={handleEdit}
       />
+
+      {editingTransaction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 text-gray-800">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              Edit Transaction
+            </h2>
+
+            <form onSubmit={handleEditSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  value={editingTransaction.description}
+                  onChange={(e) =>
+                    handleEditChange("description", e.target.value)
+                  }
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Amount
+                  </label>
+                  <input
+                    type="number"
+                    value={editingTransaction.amount}
+                    onChange={(e) =>
+                      handleEditChange("amount", Number(e.target.value))
+                    }
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                    min={0}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Type
+                  </label>
+                  <select
+                    value={editingTransaction.type}
+                    onChange={(e) =>
+                      handleEditChange(
+                        "type",
+                        e.target.value as TransactionType
+                      )
+                    }
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                    <option value="transfer">Transfer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Notes
+                </label>
+                <textarea
+                  value={editingTransaction.notes || ""}
+                  onChange={(e) => handleEditChange("notes", e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  rows={3}
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={handleEditCancel}
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+                  disabled={updateTx.isPending}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+                  disabled={updateTx.isPending}
+                >
+                  {updateTx.isPending ? "Saving..." : "Save changes"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
