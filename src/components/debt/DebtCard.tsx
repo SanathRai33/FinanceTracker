@@ -1,165 +1,335 @@
 // src/components/debt/DebtCard.tsx
-
 "use client";
 
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { 
+  Edit3, 
+  Trash2, 
+  ArrowUpRight, 
+  ArrowDownRight,
+  CheckCircle,
+  Phone,
+  Mail,
+  Calendar,
+  Clock,
+  FileText
+} from "lucide-react";
+import { 
+  useUpdateDebtRecord, 
+  useDeleteDebtRecord, 
+  useDebtRecord 
+} from "@/src/hooks/useDebts";
+import { cn } from "@/lib/utils";
+
+// ✅ Proper TypeScript types
+interface DebtRecord {
+  _id: string;
+  contactName: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  amount: number;
+  direction: "lent" | "borrowed";
+  description?: string;
+  startDate: string;
+  dueDate?: string;
+  status: "pending" | "paid" | "overdue";
+  amountPaid?: number;
+  notes?: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface DebtCardProps {
-  debt: {
-    _id: string;
-    contactName: string;
-    contactEmail?: string;
-    contactPhone?: string;
-    amount: number;
-    direction: "lent" | "borrowed";
-    description?: string;
-    startDate: string | Date;
-    dueDate?: string | Date;
-    status: "pending" | "paid" | "overdue";
-    amountPaid?: number;
-    notes?: string;
-  };
+  debt: DebtRecord;
 }
 
 export function DebtCard({ debt }: DebtCardProps) {
-  // Format dates
-  const startDate = new Date(debt.startDate);
-  const dueDate = debt.dueDate ? new Date(debt.dueDate) : null;
-  
-  // Calculate remaining amount
-  const remainingAmount = Math.max(debt.amount - (debt.amountPaid || 0), 0);
+  // Fetch full debt data for real-time updates
+  const { data: fullDebt } = useDebtRecord(debt._id);
+  const debtData: DebtRecord = fullDebt || debt;
+
+  // Mutations
+  const updateDebt = useUpdateDebtRecord(debt._id);
+  const deleteDebt = useDeleteDebtRecord();
+
+  // Calculations
+  const amountPaid = debtData.amountPaid || 0;
+  const remainingAmount = Math.max(debtData.amount - amountPaid, 0);
   const isFullyPaid = remainingAmount === 0;
-  
-  // Status colors
-  const statusColors = {
-    pending: "bg-yellow-100 text-yellow-800",
-    paid: "bg-emerald-100 text-emerald-800",
-    overdue: "bg-rose-100 text-rose-800",
+  const progressPercentage = Math.min((amountPaid / debtData.amount) * 100, 100);
+
+  // Date formatting
+  const startDate = new Date(debtData.startDate);
+  const dueDate = debtData.dueDate ? new Date(debtData.dueDate) : null;
+  const isOverdue = dueDate && new Date() > dueDate && debtData.status !== "paid";
+
+  // ✅ Fixed: Use only valid Badge variants
+  const statusConfig = {
+    pending: { 
+      label: "Pending", 
+      variant: "secondary" as const,
+      icon: Clock,
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-200"
+    },
+    paid: { 
+      label: "Paid", 
+      variant: "default" as const, // Changed from "success" to "default"
+      icon: CheckCircle,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+      borderColor: "border-emerald-200"
+    },
+    overdue: { 
+      label: "Overdue", 
+      variant: "destructive" as const,
+      icon: Clock,
+      color: "text-rose-600",
+      bgColor: "bg-rose-50",
+      borderColor: "border-rose-200"
+    },
   };
 
-  // Direction colors and labels
   const directionConfig = {
-    lent: {
-      bg: "bg-emerald-50",
-      border: "border-emerald-200",
-      icon: "↑",
-      label: "You lent",
-      text: "text-emerald-700",
+    lent: { 
+      label: "You Lent", 
+      icon: ArrowUpRight,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+      borderColor: "border-emerald-200",
+      gradientFrom: "from-emerald-50",
+      gradientTo: "to-white"
     },
-    borrowed: {
-      bg: "bg-blue-50",
-      border: "border-blue-200",
-      icon: "↓",
-      label: "You borrowed",
-      text: "text-blue-700",
+    borrowed: { 
+      label: "You Borrowed", 
+      icon: ArrowDownRight,
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+      borderColor: "border-blue-200",
+      gradientFrom: "from-blue-50",
+      gradientTo: "to-white"
     },
   };
 
-  const dir = directionConfig[debt.direction];
+  const status = statusConfig[debtData.status];
+  const dir = directionConfig[debtData.direction];
+  const StatusIcon = status.icon;
+  const DirectionIcon = dir.icon;
+
+  // Handlers
+  const handleMarkPaid = () => {
+    if (confirm("Mark this debt as fully paid?")) {
+      updateDebt.mutate({ 
+        status: "paid" as const, 
+        amountPaid: debtData.amount 
+      });
+    }
+  };
+
+  const handleUpdatePayment = () => {
+    const newAmountPaid = prompt(
+      `Current paid: ₹${amountPaid.toLocaleString()}\nTotal amount: ₹${debtData.amount.toLocaleString()}\n\nEnter new paid amount:`,
+      amountPaid.toString()
+    );
+    
+    if (newAmountPaid !== null && newAmountPaid !== "") {
+      const amount = Number(newAmountPaid);
+      if (!isNaN(amount) && amount >= 0) {
+        const newStatus = amount >= debtData.amount ? "paid" as const : 
+                         isOverdue ? "overdue" as const : "pending" as const;
+        
+        updateDebt.mutate({ 
+          amountPaid: amount,
+          status: newStatus
+        });
+      }
+    }
+  };
+
+  const handleDelete = () => {
+    if (confirm(`Are you sure you want to delete the debt record for "${debtData.contactName}"?`)) {
+      deleteDebt.mutate(debt._id);
+    }
+  };
 
   return (
-    <div className={`rounded-lg border ${dir.border} ${dir.bg} p-4`}>
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-start gap-3">
-          <div className={`mt-1 rounded-md p-2 ${dir.text}`}>
-            <span className="font-bold">{dir.icon}</span>
+    <div className={cn(
+      "relative overflow-hidden rounded-xl border p-5 transition-all duration-300 hover:shadow-lg",
+      dir.borderColor,
+      "bg-gradient-to-br", // Fixed typo: was "bg-linear-to-br"
+      dir.gradientFrom,
+      dir.gradientTo
+    )}>
+      {/* Top header with contact info and status */}
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-3">
+            <DirectionIcon className={cn("h-5 w-5", dir.color)} />
+            <h3 className="text-lg font-bold text-slate-900">
+              {debtData.contactName}
+            </h3>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="font-semibold text-slate-900">
-                {debt.contactName}
-              </h3>
-              <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${statusColors[debt.status]}`}>
-                {debt.status.charAt(0).toUpperCase() + debt.status.slice(1)}
-              </span>
-            </div>
-            <div className="mt-1 text-sm text-slate-600">
-              {dir.label} <span className="font-bold">₹{debt.amount.toLocaleString()}</span>
-            </div>
+          
+          <div className="flex flex-wrap gap-3 mb-2">
+            {debtData.contactPhone && (
+              <div className="flex items-center gap-1.5 text-sm text-slate-600">
+                <Phone className="h-3.5 w-3.5" />
+                <span>{debtData.contactPhone}</span>
+              </div>
+            )}
+            
+            {debtData.contactEmail && (
+              <div className="flex items-center gap-1.5 text-sm text-slate-600">
+                <Mail className="h-3.5 w-3.5" />
+                <span className="truncate max-w-[180px]">{debtData.contactEmail}</span>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
-
-      {/* Progress Bar */}
-      {!isFullyPaid && (
-        <div className="mt-3">
-          <div className="flex justify-between text-xs text-slate-500 mb-1">
-            <span>Progress</span>
-            <span>₹{debt.amountPaid || 0} paid of ₹{debt.amount}</span>
-          </div>
-          <div className="h-1.5 w-full rounded-full bg-slate-200">
-            <div
-              className="h-full rounded-full bg-emerald-500"
-              style={{
-                width: `${((debt.amountPaid || 0) / debt.amount) * 100}%`,
-              }}
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Dates */}
-      <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
-        <div className="flex items-center gap-1">
-          <span>Started:</span>
-          <span className="font-medium">
-            {format(startDate, "dd MMM yyyy")}
-          </span>
         </div>
         
-        {dueDate && (
-          <div className={`flex items-center gap-1 ${
-            debt.status === 'overdue' ? 'text-rose-600 font-medium' : ''
-          }`}>
-            <span>Due:</span>
-            <span className="font-medium">
-              {format(dueDate, "dd MMM yyyy")}
-            </span>
+        <div className="flex flex-col items-end gap-2">
+          <Badge 
+            variant={status.variant} 
+            className={cn(
+              "gap-1.5 px-3 py-1",
+              // Add custom styling for the "paid" state since we're using "default" variant
+              debtData.status === "paid" && "bg-emerald-100 text-emerald-800 hover:bg-emerald-100"
+            )}
+          >
+            <StatusIcon className="h-3.5 w-3.5" />
+            {status.label}
+          </Badge>
+          
+          <div className="flex items-center gap-1.5 text-sm text-slate-500">
+            <Calendar className="h-3.5 w-3.5" />
+            <span>{format(startDate, "dd MMM yyyy")}</span>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Contact Info */}
-      {(debt.contactEmail || debt.contactPhone) && (
-        <div className="mt-3 flex items-center gap-3 text-xs">
-          {debt.contactEmail && (
-            <div className="text-slate-500">
-              {debt.contactEmail}
-            </div>
-          )}
-          {debt.contactPhone && (
-            <div className="text-slate-500">
-              {debt.contactPhone}
-            </div>
-          )}
+      {/* Amount and progress section */}
+      <div className="mb-5">
+        <div className="flex justify-between items-center mb-3">
+          <span className="text-sm font-medium text-slate-700">
+            {dir.label} • Total Amount
+          </span>
+          <span className="text-xl font-bold text-slate-900">
+            ₹{debtData.amount.toLocaleString()}
+          </span>
+        </div>
+
+        {/* Progress bar */}
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs text-slate-500">
+            <span>Payment Progress</span>
+            <span className="font-medium">
+              ₹{amountPaid.toLocaleString()} / ₹{debtData.amount.toLocaleString()}
+            </span>
+          </div>
+          <Progress 
+            value={progressPercentage} 
+            className={cn(
+              "h-2",
+              debtData.status === "paid" && "bg-emerald-100 [&>div]:bg-emerald-600"
+            )}
+          />
+          
+          <div className="flex justify-between text-sm">
+            <span className="font-medium text-slate-700">Paid</span>
+            <span className={cn(
+              "font-bold",
+              isFullyPaid ? "text-emerald-600" : "text-slate-900"
+            )}>
+              {isFullyPaid ? "✅ Fully Paid" : `₹${remainingAmount.toLocaleString()} remaining`}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Due date warning */}
+      {dueDate && (
+        <div className={cn(
+          "mb-4 rounded-lg p-3 text-sm",
+          isOverdue 
+            ? "bg-rose-50 text-rose-700 border border-rose-200"
+            : "bg-slate-50 text-slate-700 border border-slate-200"
+        )}>
+          <div className="flex items-center gap-2 font-medium">
+            <Calendar className="h-4 w-4" />
+            <span>Due Date:</span>
+            <span>{format(dueDate, "dd MMM yyyy")}</span>
+            {isOverdue && (
+              <Badge variant="destructive" className="ml-2">
+                Overdue
+              </Badge>
+            )}
+          </div>
         </div>
       )}
 
       {/* Description */}
-      {debt.description && (
-        <div className="mt-3 pt-3 border-t border-slate-200">
-          <p className="text-sm text-slate-600">{debt.description}</p>
+      {debtData.description && (
+        <div className="mb-5 rounded-lg bg-white/50 p-3 border border-slate-200">
+          <div className="flex items-center gap-2 mb-1 text-sm font-medium text-slate-700">
+            <FileText className="h-4 w-4" />
+            Description
+          </div>
+          <p className="text-sm text-slate-600">{debtData.description}</p>
         </div>
       )}
 
-      {/* Quick Actions */}
-      <div className="mt-3 pt-3 border-t border-slate-200 flex items-center justify-between">
-        <div className="text-xs text-slate-500">
-          {isFullyPaid ? (
-            <span className="text-emerald-600 font-medium">✅ Fully paid</span>
-          ) : (
-            <span className={dir.text}>₹{remainingAmount.toLocaleString()} remaining</span>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="text-xs text-blue-600 hover:text-blue-700 font-medium cursor-pointer">
-            Add Payment
-          </button>
-          <button className="text-xs text-slate-600 hover:text-slate-700 font-medium cursor-pointer">
-            Edit
-          </button>
-        </div>
+      {/* Action buttons */}
+      <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-200">
+        {!isFullyPaid && (
+          <>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleUpdatePayment}
+              disabled={updateDebt.isPending}
+              className="flex-1 min-w-[140px] gap-2"
+            >
+              <Edit3 className="h-4 w-4" />
+              Update Payment
+            </Button>
+
+            <Button
+              size="sm"
+              variant="default"
+              onClick={handleMarkPaid}
+              disabled={updateDebt.isPending}
+              className={cn(
+                "flex-1 min-w-[140px] gap-2",
+                debtData.status !== "paid" && "bg-emerald-600 hover:bg-emerald-700"
+              )}
+            >
+              <CheckCircle className="h-4 w-4" />
+              Mark Paid
+            </Button>
+          </>
+        )}
+
+        <Button
+          size="sm"
+          variant="destructive"
+          onClick={handleDelete}
+          disabled={deleteDebt.isPending}
+          className="flex-1 min-w-[140px] gap-2"
+        >
+          <Trash2 className="h-4 w-4" />
+          Delete
+        </Button>
+      </div>
+
+      {/* Last updated */}
+      <div className="mt-4 pt-3 border-t border-slate-200">
+        <p className="text-xs text-slate-400 text-center">
+          Updated {format(new Date(debtData.updatedAt), "dd MMM yyyy 'at' h:mm a")}
+        </p>
       </div>
     </div>
   );

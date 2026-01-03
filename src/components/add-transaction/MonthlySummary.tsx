@@ -9,22 +9,22 @@ type SummaryItem = {
   const items: SummaryItem[] = [
     {
       label: "Income",
-      amount: "$0",
+      amount: "₹0",
       colorClasses: "bg-emerald-50 text-emerald-600",
     },
     {
       label: "Fixed Expenses",
-      amount: "$0",
+      amount: "₹0",
       colorClasses: "bg-rose-50 text-rose-600",
     },
     {
       label: "Variable Expenses",
-      amount: "$0",
+      amount: "₹0",
       colorClasses: "bg-amber-50 text-amber-600",
     },
     {
       label: "Savings",
-      amount: "$0",
+      amount: "₹0",
       colorClasses: "bg-indigo-50 text-indigo-600",
     },
   ];

@@ -11,7 +11,7 @@ export default function OverviewHeader({
   monthLabel = "November 2025",
 }: Props) {
   return (
-    <Card className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white">
+    <Card className="bg-linear-to-r from-blue-600 to-indigo-500 text-white">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold sm:text-xl">

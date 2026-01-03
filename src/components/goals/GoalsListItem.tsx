@@ -119,7 +119,7 @@ export function GoalsListItem({ goal }: Props) {
           variant="outline"
           onClick={handleAddProgress}
           disabled={isCompleted}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 hover:text-white bg-green-700 hover:bg-green-800 cursor-pointer"
         >
           <Plus size={14} />
           Add Progress
@@ -129,7 +129,7 @@ export function GoalsListItem({ goal }: Props) {
           size="sm"
           variant="outline"
           onClick={handleEdit}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 hover:text-white bg-blue-700 hover:bg-blue-800 cursor-pointer"
         >
           <Edit size={14} />
           Edit Goal
@@ -139,7 +139,7 @@ export function GoalsListItem({ goal }: Props) {
           size="sm"
           variant="destructive"
           onClick={handleDelete}
-          className="flex items-center gap-1"
+          className="flex items-center gap-1 hover:bg-red-800 cursor-pointer"
         >
           Delete
         </Button>

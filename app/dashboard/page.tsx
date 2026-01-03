@@ -29,19 +29,19 @@ export default function DashboardPage() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           <StatCard
             label="Income"
-            amount={statsLoading ? "…" : `$${totalIncome}`}
+            amount={statsLoading ? "…" : `₹${totalIncome}`}
             icon={<PlaceholderIcon />}
             accent="green"
           />
           <StatCard
             label="Expenses"
-            amount={statsLoading ? "…" : `$${totalExpenses}`}
+            amount={statsLoading ? "…" : `₹${totalExpenses}`}
             icon={<PlaceholderIcon />}
             accent="red"
           />
           <StatCard
             label="Savings"
-            amount={statsLoading ? "…" : `$${Math.max(totalIncome - totalExpenses, 0)}`}
+            amount={statsLoading ? "…" : `₹${Math.max(totalIncome - totalExpenses, 0)}`}
             icon={<PlaceholderIcon />}
             accent="blue"
           />
@@ -53,7 +53,7 @@ export default function DashboardPage() {
           />
           <StatCard
             label="Net Balance"
-            amount={statsLoading ? "…" : `$${netBalance}`}
+            amount={statsLoading ? "…" : `₹${netBalance}`}
             icon={<PlaceholderIcon />}
             accent="purple"
           />
