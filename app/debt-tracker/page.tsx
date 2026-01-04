@@ -30,8 +30,8 @@ export default function DebtTrackerPage() {
 
       {!isLoading && !isError && hasDebts && (
         <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 gap-4 p-0 lg:px-10 lg:py-2">
-          {debts!.map((debt) => (
-           <DebtCard debt={debt} />
+          {debts!.map((debt, idx) => (
+           <DebtCard debt={debt} key={idx} />
           ))}
         </div>
       )}

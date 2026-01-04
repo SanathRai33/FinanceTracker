@@ -160,7 +160,7 @@ export function DebtCard({ debt }: DebtCardProps) {
     <div className={cn(
       "relative overflow-hidden rounded-xl border p-5 transition-all duration-300 hover:shadow-lg",
       dir.borderColor,
-      "bg-gradient-to-br", // Fixed typo: was "bg-linear-to-br"
+      "bg-linear-to-br", // Fixed typo: was "bg-linear-to-br"
       dir.gradientFrom,
       dir.gradientTo
     )}>
@@ -291,7 +291,7 @@ export function DebtCard({ debt }: DebtCardProps) {
               variant="outline"
               onClick={handleUpdatePayment}
               disabled={updateDebt.isPending}
-              className="flex-1 min-w-[140px] gap-2"
+              className="flex-1 min-w-[140px] gap-2 bg-blue-600 hover:bg-blue-800 hover:text-white"
             >
               <Edit3 className="h-4 w-4" />
               Update Payment
@@ -318,7 +318,7 @@ export function DebtCard({ debt }: DebtCardProps) {
           variant="destructive"
           onClick={handleDelete}
           disabled={deleteDebt.isPending}
-          className="flex-1 min-w-[140px] gap-2"
+          className="flex-1 min-w-[140px] gap-2 hover:bg-red-700"
         >
           <Trash2 className="h-4 w-4" />
           Delete
