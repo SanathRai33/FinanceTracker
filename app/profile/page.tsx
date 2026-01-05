@@ -3,10 +3,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useCurrentUser, useLogout } from "@/src/hooks/useAuth";
+import { useCurrentUser } from "@/src/hooks/useUser";
+import { useLogout } from "@/src/hooks/useAuth";
 import { toast } from "sonner";
-import ProfileLoading from "@/src/components/profile/ProfileHeader";
-import ProfileHeader from "@/src/components/profile//ProfileHeader";
+import ProfileLoading from "@/src/components/profile/ProfileLoading";
+import ProfileHeader from "@/src/components/profile/ProfileHeader";
 import ProfileTabs from "@/src/components/profile/ProfileTabs";
 import ProfileContent from "@/src/components/profile/ProfileContent";
 import NotificationsContent from "@/src/components/profile/NotificationsContent";
@@ -24,15 +25,28 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     try {
       await logout();
-      router.push("/login");
       toast.success("Logged out successfully");
-    } catch (error) {
-      toast.error("Failed to logout");
+      router.push("/login");
+    } catch (error: any) {
+      console.error("Logout error:", error);
+      toast.error(error.message || "Failed to logout");
     }
   };
 
   if (isLoading) {
     return <ProfileLoading />;
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="h-16 w-16 mx-auto mb-4 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Profile</h2>
+          <p className="text-gray-600">Please wait while we load your profile...</p>
+        </div>
+      </div>
+    );
   }
 
   const getUserInitials = () => {
@@ -47,7 +61,7 @@ export default function ProfilePage() {
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return "Not available";
-    return new Date(dateString).toLocaleDateString("en-US", {
+    return new Date(dateString).toLocaleDateString("en-IN", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -87,7 +101,10 @@ export default function ProfilePage() {
         </div>
 
         {/* Logout Button */}
-        <div className="mt-8 flex justify-end">
+        <div className="mt-8 pt-6 border-t border-gray-200 flex justify-between items-center">
+          <div className="text-sm text-gray-500">
+            Account ID: <span className="font-mono text-gray-700">{user._id}</span>
+          </div>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 text-red-600 border border-red-200 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors"
