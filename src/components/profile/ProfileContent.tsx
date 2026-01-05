@@ -162,7 +162,7 @@ export default function ProfileContent({
           <div className="flex flex-col md:flex-row gap-6">
             {/* Avatar Section */}
             <div className="flex flex-col items-center space-y-4">
-              <div className="h-32 w-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gradient-to-br from-blue-500 to-purple-600">
+              <div className="h-32 w-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-linear-to-br from-blue-500 to-purple-600">
                 {user?.avatarUrl ? (
                   <img
                     src={user.avatarUrl}

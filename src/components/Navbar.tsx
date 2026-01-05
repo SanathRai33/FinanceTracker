@@ -15,6 +15,8 @@ import {
   FiSettings,
   FiCreditCard,
   FiBell,
+  FiMoon,
+  FiSun,
 } from "react-icons/fi";
 import {
   MdOutlineSavings,
@@ -51,6 +53,7 @@ const navItems = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLight, setIsLight] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -236,6 +239,17 @@ export default function Navbar() {
                     <Link href="/settings" className="cursor-pointer">
                       <FiSettings className="mr-2 h-4 w-4" />
                       <span>Settings</span>
+                    </Link>
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings" className="cursor-pointer">
+                      {isLight ? (
+                        <FiMoon className="mr-2 h-4 w-4" />
+                      ) : (
+                        <FiSun className="mr-2 h-4 w-4" />
+                      )}
+                      <span>{isLight ? "Dark Mode" : "Light Mode"}</span>
                     </Link>
                   </DropdownMenuItem>
 

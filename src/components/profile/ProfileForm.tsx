@@ -87,7 +87,7 @@ export default function ProfileForm({
               <span className="text-gray-400">
                 <FiSmartphone />
               </span>
-              <span className="text-gray-700">{user?.phone || "Not set"}</span>
+              <span className="text-gray-700">{user?.phoneNumber || "Not set"}</span>
             </div>
           )}
         </div>
@@ -128,7 +128,7 @@ export default function ProfileForm({
             ) : (
               <div className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 bg-gray-50">
                 <TbCurrencyRupee className="text-gray-400" />
-                <span className="text-gray-700">Indian Rupee (₹)</span>
+                <span className="text-gray-700"> { user?.currency } (₹)</span>
               </div>
             )}
           </div>
@@ -154,7 +154,7 @@ export default function ProfileForm({
             ) : (
               <div className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 bg-gray-50">
                 <FiGlobe className="text-gray-400" />
-                <span className="text-gray-700">English</span>
+                <span className="text-gray-700"> { user?.locale} </span>
               </div>
             )}
           </div>
