@@ -39,11 +39,11 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-blue-50 flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-screen bg-blue-50 dark:bg-gray-900">
         <div className="text-center">
-          <div className="h-16 w-16 mx-auto mb-4 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Profile</h2>
-          <p className="text-gray-600">Please wait while we load your profile...</p>
+          <div className="w-16 h-16 mx-auto mb-4 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+          <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">Loading Profile</h2>
+          <p className="text-gray-600 dark:text-gray-400">Please wait while we load your profile...</p>
         </div>
       </div>
     );
@@ -69,8 +69,8 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-blue-50">
-      <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-blue-50 dark:bg-[#121214]">
+      <div className="container max-w-6xl px-4 py-8 mx-auto">
         <ProfileHeader />
         
         <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -101,13 +101,13 @@ export default function ProfilePage() {
         </div>
 
         {/* Logout Button */}
-        <div className="mt-8 pt-6 border-t border-gray-200 flex justify-between items-center">
-          <div className="text-sm text-gray-500">
-            Account ID: <span className="font-mono text-gray-700">{user._id}</span>
+        <div className="flex items-center justify-between pt-6 mt-8 border-t border-gray-200">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            Account ID: <span className="font-mono text-gray-700 dark:text-gray-300">{user._id}</span>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 text-red-600 border border-red-200 rounded-lg hover:bg-red-50 hover:text-red-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 text-red-600 transition-colors border border-red-200 rounded-lg hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-900/10"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

@@ -27,8 +27,8 @@ export default function StatCard({
     <Card>
       <div className="flex items-center justify-between gap-2">
         <div className="space-y-1">
-          <p className="text-xs font-medium text-slate-500">{label}</p>
-          <p className="text-lg font-semibold text-slate-800">{amount}</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-300">{label}</p>
+          <p className="text-lg font-semibold text-slate-800 dark:text-slate-200">{amount}</p>
         </div>
         {icon && (
           <div

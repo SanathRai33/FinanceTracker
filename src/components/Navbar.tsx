@@ -36,6 +36,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser, useLogout } from "@/src/hooks/useAuth";
+import { useTheme } from "@/src/providers/ThemeProvider";
 import Logo from "@/src/assets/images/Logo.png";
 
 const navItems = [
@@ -53,10 +54,10 @@ const navItems = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isLight, setIsLight] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
 
+  const { theme, toggleTheme } = useTheme();
   const { data: user, isLoading: meLoading } = useCurrentUser();
   const { mutate: logout, isPending: isLoggingOut } = useLogout();
 
@@ -118,12 +119,12 @@ export default function Navbar() {
       <header
         className={`sticky top-0 z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm"
-            : "bg-white border-b border-gray-100"
+            ? "bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm dark:bg-gray-800/95 dark:border-gray-700"
+            : "bg-white border-b border-gray-100 dark:bg-[#121214] dark:border-gray-700"
         }`}
       >
-        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+        <nav className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
               <div className="relative w-12 h-12">
@@ -136,7 +137,7 @@ export default function Navbar() {
                 />
               </div>
 
-              <span className="text-lg font-bold text-gray-900">
+              <span className="text-lg font-bold text-gray-900 dark:text-white">
                 FinanceTracker
               </span>
             </div>
@@ -152,13 +153,13 @@ export default function Navbar() {
                     href={item.href}
                     className={`flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
                       active
-                        ? "bg-blue-50 text-blue-700"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                        ? "bg-white text-blue-700 dark:bg-[#1e1f20] dark:text-blue-300"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
                     }`}
                   >
                     <Icon
                       size={18}
-                      className={active ? "text-blue-600" : "text-gray-500"}
+                      className={active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"}
                     />
                     {item.label}
                   </Link>
@@ -167,26 +168,26 @@ export default function Navbar() {
             </div>
 
             {/* User Profile & Notifications */}
-            <div className="lg:flex items-center gap-4 hidden">
+            <div className="items-center hidden gap-4 lg:flex">
               {/* Notifications */}
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative hidden md:flex rounded-full"
+                className="relative hidden rounded-full md:flex"
               >
                 <FiBell size={20} className="text-gray-600" />
-                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">
                   3
                 </span>
               </Button>
 
               {/* Profile Dropdown */}
               {/* Mobile user info (only visible on desktop) */}
-              <div className="hidden lg:block ml-2">
-                <p className="text-sm font-medium text-gray-900">
+              <div className="hidden ml-2 lg:block">
+                <p className="text-sm font-medium text-gray-900 dark:text-white">
                   {user?.name || "Loading..."}
                 </p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   {meLoading ? "Loading..." : user?.email || "Free Plan"}
                 </p>
               </div>
@@ -194,18 +195,18 @@ export default function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-10 w-10 rounded-full p-0 hover:bg-gray-100"
+                    className="relative w-10 h-10 p-0 rounded-full hover:bg-gray-100"
                   >
-                    <Avatar className="h-10 w-10 border-2 border-white">
+                    <Avatar className="w-10 h-10 border-2 border-white">
                       <AvatarImage src={user?.avatarUrl} alt={user?.name} />
-                      <AvatarFallback className="bg-linear-to-br from-blue-500 to-blue-700 text-white">
+                      <AvatarFallback className="text-white bg-linear-to-br from-blue-500 to-blue-700">
                         {getUserInitials()}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
-                  className="w-56 bg-white text-black"
+                  className="w-56 text-black bg-white dark:bg-gray-800 dark:text-white"
                   align="center"
                   forceMount
                 >
@@ -214,7 +215,7 @@ export default function Navbar() {
                       <p className="text-sm font-medium leading-none">
                         {user?.name || "John Doe"}
                       </p>
-                      <p className="text-xs leading-none text-gray-500">
+                      <p className="text-xs leading-none text-gray-500 dark:text-gray-400">
                         {user?.email || "john.doe@example.com"}
                       </p>
                     </div>
@@ -223,34 +224,34 @@ export default function Navbar() {
 
                   <DropdownMenuItem asChild>
                     <Link href="/profile" className="cursor-pointer">
-                      <FiUser className="mr-2 h-4 w-4" />
+                      <FiUser className="w-4 h-4 mr-2" />
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/billing" className="cursor-pointer">
-                      <FiCreditCard className="mr-2 h-4 w-4" />
+                      <FiCreditCard className="w-4 h-4 mr-2" />
                       <span>Billing</span>
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
                     <Link href="/settings" className="cursor-pointer">
-                      <FiSettings className="mr-2 h-4 w-4" />
+                      <FiSettings className="w-4 h-4 mr-2" />
                       <span>Settings</span>
                     </Link>
                   </DropdownMenuItem>
 
                   <DropdownMenuItem asChild>
-                    <Link href="/settings" className="cursor-pointer">
-                      {isLight ? (
-                        <FiMoon className="mr-2 h-4 w-4" />
+                    <button onClick={toggleTheme} className="w-full text-left cursor-pointer">
+                      {theme === "light" ? (
+                        <FiMoon className="w-4 h-4 mr-2" />
                       ) : (
-                        <FiSun className="mr-2 h-4 w-4" />
+                        <FiSun className="w-4 h-4 mr-2" />
                       )}
-                      <span>{isLight ? "Dark Mode" : "Light Mode"}</span>
-                    </Link>
+                      <span>{theme === "light" ? "Dark Mode" : "Light Mode"}</span>
+                    </button>
                   </DropdownMenuItem>
 
                   <DropdownMenuSeparator />
@@ -258,9 +259,9 @@ export default function Navbar() {
                   <DropdownMenuItem
                     onClick={handleLogout}
                     disabled={isLoggingOut}
-                    className="cursor-pointer text-red-600 focus:text-red-600"
+                    className="text-red-600 cursor-pointer focus:text-red-600"
                   >
-                    <FiLogOut className="mr-2 h-4 w-4" />
+                    <FiLogOut className="w-4 h-4 mr-2" />
                     <span>{isLoggingOut ? "Logging out..." : "Log out"}</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -269,7 +270,7 @@ export default function Navbar() {
 
             {/* Mobile menu button */}
             <button
-              className="inline-flex items-center justify-center rounded-lg p-2 text-gray-700 hover:bg-gray-100 md:hidden"
+              className="inline-flex items-center justify-center p-2 text-gray-700 rounded-lg hover:bg-gray-100 md:hidden"
               onClick={() => setOpen(!open)}
               aria-label="Toggle navigation"
             >
@@ -297,13 +298,13 @@ export default function Navbar() {
 
               {/* Menu Panel */}
               <motion.div
-                className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white shadow-xl md:hidden"
+                className="fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-white shadow-xl dark:bg-gray-800 md:hidden"
                 initial={{ x: "100%" }}
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "tween", duration: 0.3 }}
               >
-                <div className="flex h-16 items-center justify-between border-b border-gray-100 px-6">
+                <div className="flex items-center justify-between h-16 px-6 border-b border-gray-100 dark:border-gray-700">
                   <div className="flex items-center gap-3">
                     <div className="relative w-12 h-12">
                       <Image
@@ -314,13 +315,13 @@ export default function Navbar() {
                         priority
                       />
                     </div>
-                    <span className="text-lg font-bold text-gray-900">
+                    <span className="text-lg font-bold text-gray-900 dark:text-white">
                       FinanceTracker
                     </span>
                   </div>
                   <button
                     onClick={() => setOpen(false)}
-                    className="rounded-lg p-2 hover:bg-gray-100"
+                    className="p-2 rounded-lg hover:bg-gray-100"
                     aria-label="Close menu"
                   >
                     <FiX size={20} className="text-gray-700" />
@@ -329,21 +330,21 @@ export default function Navbar() {
 
                 <div className="h-[calc(100vh-64px)] overflow-y-auto px-6 py-4">
                   {/* User Profile */}
-                  <div className="mb-6 flex items-center gap-3 rounded-xl bg-linear-to-r from-blue-50 to-indigo-50 p-4">
-                    <Avatar className="h-12 w-12 border-2 border-white">
+                  <div className="flex items-center gap-3 p-4 mb-6 rounded-xl bg-linear-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600">
+                    <Avatar className="w-12 h-12 border-2 border-white">
                       <AvatarImage
                         src={user?.avatarUrl || ""}
                         alt={user?.name || "User"}
                       />
-                      <AvatarFallback className="bg-linear-to-r from-blue-400 to-blue-600 text-white">
+                      <AvatarFallback className="text-white bg-linear-to-r from-blue-400 to-blue-600">
                         {getUserInitials()}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-medium text-gray-900">
+                      <p className="font-medium text-gray-900 dark:text-white">
                         {user?.name || "Loading..."}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         {meLoading ? "Loading..." : user?.email || "Free Plan"}
                       </p>
                     </div>
@@ -356,7 +357,7 @@ export default function Navbar() {
                         size={20}
                         className="text-gray-600"
                       />
-                      <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                      <span className="absolute flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full -top-1 -right-1">
                         3
                       </span>
                     </Button>
@@ -373,19 +374,19 @@ export default function Navbar() {
                           href={item.href}
                           className={`flex items-center gap-3 rounded-xl px-4 py-3.5 text-sm font-medium transition-colors ${
                             active
-                              ? "bg-blue-50 text-blue-700"
-                              : "text-gray-700 hover:bg-gray-50"
+                              ? "bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300"
+                              : "text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
                           }`}
                         >
                           <Icon
                             size={20}
                             className={
-                              active ? "text-blue-600" : "text-gray-500"
+                              active ? "text-blue-600 dark:text-blue-400" : "text-gray-500 dark:text-gray-400"
                             }
                           />
                           {item.label}
                           {active && (
-                            <div className="ml-auto h-2 w-2 rounded-full bg-blue-600"></div>
+                            <div className="w-2 h-2 ml-auto bg-blue-600 rounded-full"></div>
                           )}
                         </Link>
                       );
@@ -393,25 +394,25 @@ export default function Navbar() {
                   </nav>
 
                   {/* Mobile User Menu */}
-                  <div className="mt-6 border-t border-gray-100 pt-6">
+                  <div className="pt-6 mt-6 border-t border-gray-100">
                     <div className="space-y-1">
                       <Link
                         href="/profile"
-                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
                         <FiUser size={18} className="text-gray-500" />
                         Profile
                       </Link>
                       <Link
                         href="/settings"
-                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
                         <FiSettings size={18} className="text-gray-500" />
                         Settings
                       </Link>
                       <Link
                         href="/billing"
-                        className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 rounded-xl hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700"
                       >
                         <FiCreditCard size={18} className="text-gray-500" />
                         Billing
@@ -421,7 +422,7 @@ export default function Navbar() {
                     <button
                       onClick={handleLogout}
                       disabled={isLoggingOut}
-                      className="mt-4 flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                      className="flex items-center w-full gap-3 px-4 py-3 mt-4 text-sm font-medium text-red-600 rounded-xl hover:bg-red-50 disabled:opacity-50"
                     >
                       <FiLogOut size={18} />
                       {isLoggingOut ? "Logging out..." : "Log out"}
@@ -429,11 +430,11 @@ export default function Navbar() {
                   </div>
 
                   {/* Mobile Footer */}
-                  <div className="absolute bottom-0 left-0 right-0 border-t border-gray-100 p-6">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-100 dark:border-gray-700">
                     <div className="flex items-center justify-between">
                       <div>
-                        <p className="text-sm text-gray-600">Total Balance</p>
-                        <p className="text-lg font-bold text-gray-900">
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Total Balance</p>
+                        <p className="text-lg font-bold text-gray-900 dark:text-white">
                           $12,456.78
                         </p>
                       </div>

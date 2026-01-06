@@ -11,23 +11,23 @@ export default function AddTransactionPage() {
   const router = useRouter();
 
   return (
-    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
+    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen dark:bg-[#121214] dark:text-[#F8FAFC]">
+      <div className="flex flex-col max-w-6xl gap-4 mx-auto sm:gap-5">
         {/* Back button - fixed to go back instead of to same page */}
         <button
           onClick={() => router.back()} // Changed to router.back() instead of router.push("/add-transaction")
-          className="flex items-center shadow-sm hover:shadow-md gap-2 text-slate-600 hover:text-slate-800 transition-colors w-fit py-2 px-3 rounded-lg hover:bg-white/50 cursor-pointer"
+          className="flex items-center gap-2 px-3 py-2 transition-colors rounded-lg shadow-sm cursor-pointer hover:shadow-md dark:shadow-slate-600 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 w-fit hover:bg-white/50 dark:hover:bg-gray-800/50"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="w-4 h-4" />
           <p className="text-sm font-medium">Back</p>
         </button>
         
         {/* Page title */}
         <div className="mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900">
+          <h1 className="text-2xl font-bold sm:text-3xl text-slate-900 dark:text-white">
             Add New Transaction
           </h1>
-          <p className="text-slate-600 mt-2 text-sm">
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Record your income or expenses
           </p>
         </div>

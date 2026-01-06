@@ -141,8 +141,8 @@ export function AddTransactionForm() {
   }
 
   return (
-    <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-6">
-      <h2 className="mb-4 text-sm font-semibold text-slate-800">
+    <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-6 dark:bg-[#1e1f20] dark:text-[#94A3B8] dark:ring-slate-700">
+      <h2 className="mb-4 text-sm font-semibold text-slate-800 dark:text-slate-200">
         Transaction Details
       </h2>
 
@@ -150,7 +150,7 @@ export function AddTransactionForm() {
         {/* Date + Type */}
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Date<span className="text-red-500"> *</span>
             </label>
             <input
@@ -158,19 +158,19 @@ export function AddTransactionForm() {
               name="date"
               value={form.date}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none ring-0 focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 ring-0 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
               required
             />
           </div>
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Type<span className="text-red-500"> *</span>
             </label>
             <select
               name="type"
               value={form.type}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
             >
               <option value="Income">Income</option>
               <option value="Expense">Expense</option>
@@ -182,14 +182,14 @@ export function AddTransactionForm() {
         {/* Category + Amount */}
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Category<span className="text-red-500"> *</span>
             </label>
             <select
               name="category"
               value={form.category}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
               required
             >
               <option value="">Select {form.type.toLowerCase()} category</option>
@@ -201,7 +201,7 @@ export function AddTransactionForm() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Amount<span className="text-red-500"> *</span>
             </label>
             <input
@@ -212,7 +212,7 @@ export function AddTransactionForm() {
               value={form.amount}
               onChange={handleChange}
               placeholder="0.00"
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
               required
             />
           </div>
@@ -220,7 +220,7 @@ export function AddTransactionForm() {
 
         {/* Description */}
         <div>
-          <label className="mb-1 block font-medium text-slate-600">
+          <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
             Description<span className="text-red-500"> *</span>
           </label>
           <input
@@ -229,7 +229,7 @@ export function AddTransactionForm() {
             value={form.description}
             onChange={handleChange}
             placeholder="Brief description of transaction"
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+            className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
             required
           />
         </div>
@@ -237,14 +237,14 @@ export function AddTransactionForm() {
         {/* Payment method + Recurring + Need/Want */}
         <div className="grid gap-3 sm:grid-cols-3">
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Payment Method<span className="text-red-500"> *</span>
             </label>
             <select
               name="paymentMethod"
               value={form.paymentMethod}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
             >
               <option value="">Select method</option>
               <option>Cash</option>
@@ -254,28 +254,28 @@ export function AddTransactionForm() {
             </select>
           </div>
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Recurring?
             </label>
             <select
               name="recurring"
               value={form.recurring}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
             >
               <option>No</option>
               <option>Yes</option>
             </select>
           </div>
           <div>
-            <label className="mb-1 block font-medium text-slate-600">
+            <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
               Need/Want
             </label>
             <select
               name="needWant"
               value={form.needWant}
               onChange={handleChange}
-              className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+              className="w-full px-3 py-2 border rounded-lg outline-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
             >
               <option>N/A</option>
               <option>Need</option>
@@ -286,7 +286,7 @@ export function AddTransactionForm() {
 
         {/* Notes */}
         <div>
-          <label className="mb-1 block font-medium text-slate-600">
+          <label className="block mb-1 font-medium text-slate-600 dark:text-slate-300">
             Notes
           </label>
           <textarea
@@ -295,20 +295,20 @@ export function AddTransactionForm() {
             onChange={handleChange}
             rows={3}
             placeholder="Additional notes..."
-            className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 outline-none focus:border-blue-400 focus:bg-white"
+            className="w-full px-3 py-2 border rounded-lg outline-none resize-none border-slate-200 bg-slate-50 text-slate-800 focus:border-blue-400 focus:bg-white dark:focus:ring-0 dark:border-slate-600 dark:bg-[#1e1f20] dark:text-slate-300"
           />
         </div>
 
         {/* Error Message */}
         {addTransaction.isError && (
-          <div className="rounded-lg bg-red-50 p-3 text-xs text-red-600 sm:text-sm">
+          <div className="p-3 text-xs text-red-600 rounded-lg bg-red-50 sm:text-sm">
             Failed to save transaction. Please try again.
           </div>
         )}
 
         {/* Success Message */}
         {addTransaction.isSuccess && (
-          <div className="rounded-lg bg-emerald-50 p-3 text-xs text-emerald-600 sm:text-sm">
+          <div className="p-3 text-xs rounded-lg bg-emerald-50 text-emerald-600 sm:text-sm">
             Transaction saved successfully!
           </div>
         )}
@@ -318,7 +318,7 @@ export function AddTransactionForm() {
           <button
             type="submit"
             disabled={addTransaction.isPending}
-            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm"
+            className="mt-2 flex w-full items-center justify-center rounded-full bg-blue-600 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm dark:bg-blue-500 dark:hover:bg-blue-600"
           >
             {addTransaction.isPending ? "Saving..." : "Save Transaction"}
           </button>

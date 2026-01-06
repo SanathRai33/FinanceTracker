@@ -100,10 +100,10 @@ export function TransactionsTable({
   return (
     <div className="space-y-4">
       {/* ✅ Export Buttons */}
-      <div className="flex gap-3 justify-end bg-white p-4 rounded-lg border border-gray-200">
+      <div className="flex gap-3 justify-end bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
         <button
           onClick={handleExportExcel}
-          className="flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg hover:bg-green-100 transition font-medium"
+          className="flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-700 rounded-lg hover:bg-green-100 dark:hover:bg-green-800 transition font-medium"
           title="Download as Excel file"
         >
           <Download size={18} />
@@ -111,7 +111,7 @@ export function TransactionsTable({
         </button>
         <button
           onClick={handleExportPDF}
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 border border-red-200 rounded-lg hover:bg-red-100 transition font-medium"
+          className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/50 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-700 rounded-lg hover:bg-red-100 dark:hover:bg-red-800 transition font-medium"
           title="Download as PDF file"
         >
           <FileText size={18} />
@@ -120,32 +120,32 @@ export function TransactionsTable({
       </div>
 
       {/* 📊 Table */}
-      <div className="overflow-x-auto bg-white rounded-lg border border-gray-200">
+      <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50">
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+            <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Date
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Type
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Description
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Amount
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Method
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Recurring
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Need/Want
               </th>
-              <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">
+              <th className="px-6 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 border text-center">
                 Notes
               </th>
               <th className="px-6 py-4 text-sm font-semibold text-gray-700 border text-center">

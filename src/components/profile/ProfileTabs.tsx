@@ -17,7 +17,7 @@ export default function ProfileTabs({ activeTab, setActiveTab }: ProfileTabsProp
   ];
 
   return (
-    <div className="flex space-x-1 rounded-lg bg-white p-1 shadow-sm border border-gray-200">
+    <div className="flex p-1 space-x-1 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-[#1e1f20] dark:border-gray-700">
       {tabs.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -28,11 +28,11 @@ export default function ProfileTabs({ activeTab, setActiveTab }: ProfileTabsProp
             onClick={() => setActiveTab(tab.id)}
             className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
               isActive
-                ? "bg-blue-50 text-blue-700"
-                : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                ? "bg-blue-50 dark:bg-[#121214] text-blue-700 dark:text-blue-200"
+                : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
             }`}
           >
-            <Icon size={16} className={isActive ? "text-blue-600" : "text-gray-500"} />
+            <Icon size={16} className={isActive ? "text-blue-600 dark:text-blue-300" : "text-gray-500 dark:text-gray-400"} />
             {tab.label}
           </button>
         );

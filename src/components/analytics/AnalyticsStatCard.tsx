@@ -23,7 +23,7 @@ export function AnalyticsStatCard({
   accent = "blue",
 }: Props) {
   return (
-    <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 ring-slate-100 sm:p-5">
+    <section className="rounded-2xl bg-white p-4 shadow-sm ring-1 dark:bg-[#1e1f20] dark:text-[#94A3B8] dark:ring-slate-700 ring-slate-100 sm:p-5">
       <div className="flex items-center justify-between gap-2">
         <div className="space-y-1">
           <p className="text-xs font-medium text-slate-500">{label}</p>

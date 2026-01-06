@@ -11,17 +11,17 @@ export default function OverviewHeader({
   monthLabel = "November 2025",
 }: Props) {
   return (
-    <Card className="bg-linear-to-r from-blue-600 to-indigo-500 text-white">
+    <Card className="text-white bg-linear-to-r from-blue-600 to-indigo-500 dark:from-blue-500 dark:to-indigo-600 dark:text-blue-100">
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-lg font-semibold sm:text-xl">
             Monthly Financial Overview
           </h1>
-          <p className="text-sm text-blue-100">
+          <p className="text-sm text-blue-100 dark:text-blue-200">
             {isLoading ? "Loading…" : monthLabel}
           </p>
         </div>
-        <p className="text-sm text-blue-100">
+        <p className="text-sm text-blue-100 dark:text-blue-200">
           All your income, expenses and savings at a glance.
         </p>
       </div>

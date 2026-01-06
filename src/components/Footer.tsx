@@ -77,7 +77,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-auto border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <footer className="mt-auto border-t bg-white/95 dark:bg-gray-800/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-800/60 border-gray-200 dark:border-gray-700">
       {/* Main Footer Content */}
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">

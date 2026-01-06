@@ -23,19 +23,19 @@ export default function AnalyticsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-8 text-center bg-blue-50 min-h-screen flex flex-col items-center justify-center">
-        <Loader2 className="mx-auto h-8 w-8 animate-spin text-slate-400" />
-        <p className="mt-2 text-sm text-slate-500">Loading analytics...</p>
+      <div className="p-8 text-center bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] min-h-screen flex flex-col items-center justify-center">
+        <Loader2 className="w-8 h-8 mx-auto animate-spin text-slate-400" />
+        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading analytics...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 min-h-full">
+    <div className="p-4 sm:p-6 lg:p-8 bg-blue-50 dark:bg-[#121214] dark:text-[#F8FAFC] min-h-full">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Analytics</h1>
-          <p className="text-slate-600 mt-2">Detailed insights into your financial activity</p>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Analytics</h1>
+          <p className="mt-2 text-slate-600 dark:text-slate-400">Detailed insights into your financial activity</p>
         </div>
 
         {/* Stats Cards */}
@@ -77,9 +77,9 @@ export default function AnalyticsPage() {
           <NeedWantBreakdown data={needWantData || []} />
           <div className="lg:col-span-2">
             {/* Future chart space */}
-            <div className="h-64 bg-white rounded-xl p-8 flex items-center justify-center border-2 border-dashed border-slate-200">
+            <div className="flex items-center justify-center h-64 p-8 bg-white border-2 border-dashed rounded-xl border-slate-200 dark:bg-[#1e1f20] dark:text-[#94A3B8] dark:ring-slate-700">
               <div className="text-center">
-                <span className="text-3xl mb-2">📈</span>
+                <span className="mb-2 text-3xl">📈</span>
                 <p className="text-slate-500">More charts coming soon</p>
               </div>
             </div>

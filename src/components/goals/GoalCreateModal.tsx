@@ -38,12 +38,12 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md p-0 bg-gray-50 text-black">
+      <DialogContent className="max-w-md p-0 text-black bg-gray-50 dark:bg-[#1e1f20] dark:text-[#94A3B8] dark:ring-slate-700">
         <DialogHeader className="p-6 pb-2">
           <DialogTitle className="flex items-center justify-between">
             Create New Goal
             {/* <Button variant="ghost" size="sm" onClick={onClose}>
-              <X className="h-4 w-4" />
+              <X className="w-4 h-4" />
             </Button> */}
           </DialogTitle>
         </DialogHeader>
@@ -57,7 +57,7 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="e.g., Emergency Fund, New Laptop"
               required
-              className="bg-white border-gray-300 text-gray-700"
+              className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40"
             />
           </div>
 
@@ -65,7 +65,7 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger className="bg-white border-gray-300 text-gray-700">
+              <SelectTrigger className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -80,10 +80,10 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
               </SelectContent>
             </Select>
           </div>
-          <div className="space-y-2 flex-1">
+          <div className="flex-1 space-y-2">
           <Label htmlFor="type">Type</Label>
             <Select value={formData.type} onValueChange={(value) => setFormData({ ...formData, type: value })}>
-              <SelectTrigger className="bg-white border-gray-300 text-gray-700">
+              <SelectTrigger className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -104,7 +104,7 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
                 onChange={(e) => setFormData({ ...formData, targetAmount: Number(e.target.value) })}
                 placeholder="₹50,000"
                 required
-                className="bg-white border-gray-300 text-gray-700"
+                className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40"
               />
             </div>
             <div className="space-y-2">
@@ -115,7 +115,7 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
                 value={formData.deadline}
                 onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
                 required
-                className="bg-white border-gray-300 text-gray-700"
+                className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40"
               />
             </div>
           </div>
@@ -127,11 +127,11 @@ export function GoalCreateModal({ isOpen, onClose }: Props) {
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
               placeholder="Additional notes..."
-              className="bg-white border-gray-300 text-gray-700"
+              className="text-gray-700 bg-white border-gray-300 dark:bg-[#1e1f20] dark:border-slate-600 dark:text-white/40"
             />
           </div>
 
-          <Button type="submit" className="w-full bg-emerald-600 hover:bg-emerald-700 cursor-pointer">
+          <Button type="submit" className="w-full cursor-pointer bg-emerald-600 hover:bg-emerald-700">
             Create Goal
           </Button>
         </form>

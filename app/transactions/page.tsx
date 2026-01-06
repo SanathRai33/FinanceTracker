@@ -117,23 +117,23 @@ export default function TransactionsPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-blue-50">
+      <div className="flex items-center justify-center min-h-screen bg-blue-50 dark:bg-[#121214] dark:text-[#F8FAFC]">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-gray-600">Loading transactions...</p>
+          <Loader2 className="w-8 h-8 mx-auto mb-4 text-blue-600 animate-spin" />
+          <p className="text-gray-600 dark:text-gray-400">Loading transactions...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6 p-6 bg-blue-50">
-      <div className="mb-8 flex justify-between items-center">
+    <div className="p-6 space-y-6 bg-blue-50 dark:bg-[#121214] dark:text-[#F8FAFC]">
+      <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">
             My Transactions
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             {transactionsToShow.length} transactions found
             {typeFilter !== "all" && ` (${typeFilter})`}
             {monthFilter && ` (Month ${monthFilter})`}
@@ -143,7 +143,7 @@ export default function TransactionsPage() {
         <div>
           <button
             onClick={() => router.push("/add-transaction")}
-            className="flex items-center justify-center rounded-md bg-blue-600 p-2 text-white shadow-sm transition hover:bg-blue-700 cursor-pointer"
+            className="flex items-center justify-center p-2 text-white transition bg-blue-600 rounded-md shadow-sm cursor-pointer hover:bg-blue-700"
           >
             + New Transaction
           </button>
@@ -159,15 +159,15 @@ export default function TransactionsPage() {
       />
 
       {editingTransaction && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 text-gray-800">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
+        <div className="fixed inset-0 z-50 flex items-center justify-center text-gray-800 bg-black/40 dark:text-gray-200">
+          <div className="w-full max-w-lg p-6 space-y-4 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+            <h2 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">
               Edit Transaction
             </h2>
 
             <form onSubmit={handleEditSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Description
                 </label>
                 <input
@@ -183,7 +183,7 @@ export default function TransactionsPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Amount
                   </label>
                   <input
@@ -199,7 +199,7 @@ export default function TransactionsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Type
                   </label>
                   <select
@@ -220,7 +220,7 @@ export default function TransactionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Notes
                 </label>
                 <textarea
@@ -235,14 +235,14 @@ export default function TransactionsPage() {
                 <button
                   type="button"
                   onClick={handleEditCancel}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100"
                   disabled={updateTx.isPending}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+                  className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-60"
                   disabled={updateTx.isPending}
                 >
                   {updateTx.isPending ? "Saving..." : "Save changes"}

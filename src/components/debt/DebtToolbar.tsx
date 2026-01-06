@@ -68,11 +68,11 @@ export function DebtToolbar() {
   };
 
   return (
-    <div className="flex flex-col gap-3 justify-between lg:px-20 ">
-      <div className="flex flex-col gap-3 md:flex-row md:items-center justify-between ">
+    <div className="flex flex-col justify-between gap-3 lg:px-20 ">
+      <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center ">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Debt Tracker</h1>
-          <p className="text-slate-600 mt-1">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Debt Tracker</h1>
+          <p className="mt-1 text-slate-600 dark:text-slate-400">
             Track money you have lent or borrowed.
           </p>
         </div>
@@ -81,7 +81,7 @@ export function DebtToolbar() {
           <Button
             size="sm"
             onClick={() => setIsAdding((prev) => !prev)}
-            className="bg-emerald-600 hover:bg-emerald-700 flex items-center gap-2 py-2 px-4"
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700"
           >
             {isAdding ? "Cancel" : "Add Debt"}
           </Button>
@@ -91,7 +91,7 @@ export function DebtToolbar() {
         {isAdding && (
           <form
             onSubmit={handleSubmit}
-            className="mt-3 flex flex-col gap-2 rounded-md border border-slate-200 bg-white text-gray-800 p-3 w-full"
+            className="flex flex-col w-full gap-2 p-3 mt-3 text-gray-800 bg-white border rounded-md border-slate-200 dark:bg-[#1e1f20] dark:border-slate-700"
           >
             {/* Required Fields */}
             <div className="flex gap-3">
@@ -151,7 +151,7 @@ export function DebtToolbar() {
                   }))
                 }
               >
-                <SelectTrigger className="text-xs">
+                <SelectTrigger className="text-xs text-gray-900 dark:text-gray-300">
                   <SelectValue placeholder="Direction *" />
                 </SelectTrigger>
                 <SelectContent>
@@ -181,6 +181,7 @@ export function DebtToolbar() {
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, dueDate: e.target.value }))
                 }
+                className="dark:text-gray-300"
               />
 
               <Input
@@ -194,6 +195,7 @@ export function DebtToolbar() {
                   }))
                 }
                 min="0"
+                className="dark:text-gray-300"
               />
 
               <Input

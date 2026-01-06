@@ -63,31 +63,31 @@ export function GoalsListItem({ goal }: Props) {
   };
 
   return (
-    <div className="group border rounded-xl p-6 hover:shadow-lg transition-all bg-gradient-to-r from-white to-gray-50">
+    <div className="p-6 transition-all border group rounded-xl hover:shadow-lg bg-linear-to-r from-white to-gray-50 dark:from-[#1e1f20] dark:to-[#232425] border-slate-200 dark:border-slate-700 dark:text-white/40">
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div
             className={`p-2 rounded-lg ${
               isCompleted
-                ? "bg-emerald-100 text-emerald-600"
-                : "bg-blue-100 text-blue-600"
+                ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400"
+                : "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
             }`}
           >
             {isCompleted ? (
-              <CheckCircle className="h-5 w-5" />
+              <CheckCircle className="w-5 h-5" />
             ) : (
-              <Target className="h-5 w-5" />
+              <Target className="w-5 h-5" />
             )}
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900 text-lg">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
               {goal.name}
             </h3>
-            <p className="text-sm text-slate-500">{goal.category}</p>
+            <p className="text-sm text-slate-500 dark:text-white/60">{goal.category}</p>
           </div>
         </div>
-        <div className="h-12 w-12 flex items-center justify-center rounded-md border border-slate-200 p-1 bg-slate-50 shadow-md overflow-hidden">
+        <div className="flex items-center justify-center w-12 h-12 p-1 overflow-hidden border rounded-md shadow-md border-slate-200 bg-slate-50 dark:bg-[#232425] dark:border-slate-700 dark:shadow-white/10">
           <img
             src={
               PRODUCTS[
@@ -95,14 +95,14 @@ export function GoalsListItem({ goal }: Props) {
               ]
             }
             alt="Target"
-            className="h-full object-cover"
+            className="object-cover h-full"
           />
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="mb-6 text-gray-700">
-        <div className="flex justify-between text-sm mb-2">
+      <div className="mb-6 text-gray-700 dark:text-white/70">
+        <div className="flex justify-between mb-2 text-sm">
           <span>Progress: ₹{goal.currentAmount.toLocaleString()}</span>
           <span >{progress.toFixed(0)}%</span>
         </div>
@@ -119,7 +119,7 @@ export function GoalsListItem({ goal }: Props) {
           variant="outline"
           onClick={handleAddProgress}
           disabled={isCompleted}
-          className="flex items-center gap-1 hover:text-white bg-green-700 hover:bg-green-800 cursor-pointer"
+          className="flex items-center gap-1 bg-green-700 cursor-pointer hover:text-white hover:bg-green-800 dark:bg-green-700 dark:hover:bg-green-800 dark:text-white"
         >
           <Plus size={14} />
           Add Progress
@@ -129,7 +129,7 @@ export function GoalsListItem({ goal }: Props) {
           size="sm"
           variant="outline"
           onClick={handleEdit}
-          className="flex items-center gap-1 hover:text-white bg-blue-700 hover:bg-blue-800 cursor-pointer"
+          className="flex items-center gap-1 bg-blue-700 cursor-pointer hover:text-white hover:bg-blue-800 dark:bg-blue-700 dark:hover:bg-blue-800 dark:text-white"
         >
           <Edit size={14} />
           Edit Goal
@@ -139,19 +139,19 @@ export function GoalsListItem({ goal }: Props) {
           size="sm"
           variant="destructive"
           onClick={handleDelete}
-          className="flex items-center gap-1 hover:bg-red-800 cursor-pointer"
+          className="flex items-center gap-1 cursor-pointer hover:bg-red-800"
         >
           Delete
         </Button>
       </div>
 
       {/* Status Badge */}
-      <div className="mt-4 pt-4 border-t">
+      <div className="pt-4 mt-4 border-t">
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${
             isCompleted
-              ? "bg-green-100 text-green-800"
-              : "bg-yellow-100 text-yellow-800"
+              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
+              : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
           }`}
         >
           {isCompleted ? "🎉 Completed!" : "In Progress"}

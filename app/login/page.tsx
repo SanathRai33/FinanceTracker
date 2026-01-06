@@ -29,8 +29,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen min-w-screen relative top-0 left-0 items-center justify-center bg-linear-to-br from-slate-50 to-blue-50 px-4 money-bg">
-      <div className="w-full max-w-md rounded-2xl bg-white absolute top-1/6 z-100 p-8 shadow-xl ring-1 ring-slate-200/60">
+    <div className="flex min-h-screen min-w-screen relative top-0 left-0 items-center justify-center bg-linear-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 px-4 money-bg">
+      <div className="w-full max-w-md rounded-2xl bg-white dark:bg-gray-800 absolute top-1/6 z-100 p-8 shadow-xl ring-1 ring-slate-200/60 dark:ring-gray-700">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="relative w-16 h-16">
@@ -43,10 +43,10 @@ export default function LoginPage() {
               />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
             Welcome to FinanceTracker
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-400">
             Track your expenses, monitor investments, and achieve financial
             goals
           </p>

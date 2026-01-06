@@ -15,18 +15,18 @@ export default function GoalsPage() {
 
   if (isLoading) {
     return (
-      <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen flex items-center justify-center">
+      <div className="bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="mx-auto h-8 w-8 animate-spin text-blue-500" />
-          <p className="mt-2 text-sm text-slate-500">Loading your goals...</p>
+          <Loader2 className="w-8 h-8 mx-auto text-blue-500 animate-spin" />
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading your goals...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-blue-50 px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-5">
+    <div className="bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen">
+      <div className="flex flex-col max-w-6xl gap-4 mx-auto sm:gap-5">
         <GoalsToolbar onCreateGoal={() => setIsCreateModalOpen(true)} />
         
         {goals && goals.length > 0 ? (

@@ -103,8 +103,8 @@ export default function ProfileContent({
   if (!user) {
     return (
       <div className="space-y-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-          <p className="text-gray-500">Loading user profile...</p>
+        <div className="p-8 text-center bg-white border border-gray-200 shadow-sm dark:bg-gray-800 rounded-xl dark:border-gray-700">
+          <p className="text-gray-500 dark:text-gray-400">Loading user profile...</p>
         </div>
       </div>
     );
@@ -112,16 +112,16 @@ export default function ProfileContent({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="p-6 flex flex-row items-center justify-between">
+      <div className="bg-white border border-gray-200 shadow-sm dark:bg-[#1e1f20] dark:text-[#94A3B8] dark:ring-slate-700 rounded-xl ">
+        <div className="flex flex-row items-center justify-between p-6">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">Personal Information</h2>
-            <p className="text-gray-600">Update your personal details</p>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Personal Information</h2>
+            <p className="text-gray-600 dark:text-gray-400">Update your personal details</p>
           </div>
           {!isEditing ? (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-lg dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
               disabled={updateProfile.isPending}
             >
               <FiEdit2 size={16} />
@@ -132,11 +132,11 @@ export default function ProfileContent({
               <button
                 onClick={handleSave}
                 disabled={updateProfile.isPending}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-4 py-2 text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {updateProfile.isPending ? (
                   <>
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <div className="w-4 h-4 border-2 border-white rounded-full animate-spin border-t-transparent" />
                     Saving...
                   </>
                 ) : (
@@ -149,7 +149,7 @@ export default function ProfileContent({
               <button
                 onClick={handleCancel}
                 disabled={updateProfile.isPending}
-                className="flex items-center gap-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-lg dark:text-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50"
               >
                 <FiX size={16} />
                 Cancel
@@ -159,15 +159,15 @@ export default function ProfileContent({
         </div>
         
         <div className="p-6 pt-0">
-          <div className="flex flex-col md:flex-row gap-6">
+          <div className="flex flex-col gap-6 md:flex-row">
             {/* Avatar Section */}
             <div className="flex flex-col items-center space-y-4">
-              <div className="h-32 w-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-linear-to-br from-blue-500 to-purple-600">
+              <div className="w-32 h-32 overflow-hidden border-4 border-white rounded-full shadow-lg bg-linear-to-br from-blue-500 to-purple-600">
                 {user?.avatarUrl ? (
                   <img
                     src={user.avatarUrl}
                     alt={user?.name || "User"}
-                    className="h-full w-full object-cover"
+                    className="object-cover w-full h-full"
                     onError={(e) => {
                       e.currentTarget.style.display = 'none';
                       e.currentTarget.nextElementSibling?.classList.remove('hidden');
@@ -179,10 +179,10 @@ export default function ProfileContent({
                 </div>
               </div>
               <div className="text-center">
-                <h3 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {user?.name || "User"}
                 </h3>
-                <div className="inline-flex items-center gap-1 mt-1 px-2 py-1 border border-green-200 rounded-full text-green-700 text-xs">
+                <div className="inline-flex items-center gap-1 px-2 py-1 mt-1 text-xs text-green-700 border border-green-200 rounded-full dark:text-green-300 dark:border-green-700 dark:bg-black/20">
                   <MdOutlineVerified className="text-green-500" />
                   {user?.subscription?.plan === "free" ? "Free Account" : "Verified Account"}
                 </div>
