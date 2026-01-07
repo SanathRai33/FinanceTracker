@@ -71,21 +71,21 @@ export default function Footer() {
     },
     {
       icon: <FiMail size={18} />,
-      href: "mailto:support@financetracker.com",
+      href: "mailto:sanathrai03@gmail.com",
       label: "Email",
     },
   ];
 
   return (
-    <footer className="mt-auto border-t bg-white/95 dark:bg-gray-800/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-800/60 border-gray-200 dark:border-gray-700">
+    <footer className="mt-auto border-t border-gray-200 bg-white/95 dark:bg-gray-800/95 backdrop-blur supports-backdrop-filter:bg-white/60 dark:supports-backdrop-filter:bg-[#1e1f20] dark:border-gray-700">
       {/* Main Footer Content */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-12 items-center justify-center rounded-xl text-white shadow-sm">
-                {/* <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="flex items-center justify-center w-12 h-10 text-white shadow-sm rounded-xl">
+                {/* <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg> */}
                 <div className="relative w-12 h-12">
@@ -99,10 +99,10 @@ export default function Footer() {
                 </div>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-900">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
                   FinanceTracker
                 </h3>
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
                   Take control of your finances with our all-in-one money
                   management platform.
                 </p>
@@ -111,7 +111,7 @@ export default function Footer() {
 
             {/* Social Links */}
             <div className="mt-6">
-              <p className="mb-3 text-sm font-medium text-gray-900">
+              <p className="mb-3 text-sm font-medium text-gray-900 dark:text-white">
                 Follow us
               </p>
               <div className="flex gap-3">
@@ -121,7 +121,7 @@ export default function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                    className="flex items-center justify-center w-10 h-10 text-gray-600 transition-all border border-gray-200 rounded-lg dark:text-gray-300 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/10 dark:hover:border-blue-700 dark:hover:text-blue-400"
                     aria-label={social.label}
                   >
                     {social.icon}
@@ -133,7 +133,7 @@ export default function Footer() {
 
           {/* Product Links */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-900">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-gray-900 uppercase dark:text-white">
               Product
             </h4>
             <ul className="space-y-3">
@@ -141,7 +141,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
+                    className="text-sm text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-600"
                   >
                     {link.label}
                   </Link>
@@ -152,7 +152,7 @@ export default function Footer() {
 
           {/* Resources Links */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-900">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-gray-900 uppercase dark:text-white">
               Resources
             </h4>
             <ul className="space-y-3">
@@ -160,7 +160,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
+                    className="text-sm text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-600"
                   >
                     {link.label}
                   </Link>
@@ -171,7 +171,7 @@ export default function Footer() {
 
           {/* Support & Legal Links */}
           <div>
-            <h4 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-900">
+            <h4 className="mb-4 text-sm font-semibold tracking-wider text-gray-900 uppercase dark:text-white">
               Legal
             </h4>
             <ul className="space-y-3">
@@ -179,7 +179,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
+                    className="text-sm text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-600"
                   >
                     {link.label}
                     {link.icon && <span className="ml-1.5">{link.icon}</span>}
@@ -188,7 +188,7 @@ export default function Footer() {
               ))}
             </ul>
 
-            <h4 className="mb-4 mt-6 text-sm font-semibold uppercase tracking-wider text-gray-900">
+            <h4 className="mt-6 mb-4 text-sm font-semibold tracking-wider text-gray-900 uppercase dark:text-white">
               Support
             </h4>
             <ul className="space-y-3">
@@ -196,7 +196,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-gray-600 transition-colors hover:text-blue-600"
+                    className="text-sm text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-600"
                   >
                     {link.label}
                   </Link>
@@ -207,16 +207,16 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-8 border-t border-gray-200"></div>
+        <div className="my-8 border-t border-gray-200 dark:border-gray-600"></div>
 
         {/* Bottom Bar */}
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="text-center sm:text-left">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               © {year} FinanceTracker. All rights reserved.
             </p>
-            <p className="mt-1 text-xs text-gray-500">
-              Made with <FiHeart className="inline h-3 w-3 text-red-500" /> for
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              Made with <FiHeart className="inline w-3 h-3 text-red-500" /> for
               better financial decisions.
             </p>
           </div>
@@ -224,17 +224,17 @@ export default function Footer() {
           {/* Language & Currency Selector */}
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-gray-600">Language:</span>
-              <select className="rounded-md border border-gray-300 bg-transparent px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option>English</option>
+              <span className="text-gray-600 dark:text-gray-300">Language:</span>
+              <select className="px-2 py-1 text-sm text-gray-700 bg-transparent border border-gray-300 rounded-md dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:bg-black/80">
+                <option >English</option>
                 <option>Español</option>
                 <option>Français</option>
                 <option>Deutsch</option>
               </select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-600">Currency:</span>
-              <select className="rounded-md border border-gray-300 bg-transparent px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <span className="text-gray-600 dark:text-gray-300">Currency:</span>
+              <select className="px-2 py-1 text-sm text-gray-700 bg-transparent border border-gray-300 rounded-md dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:bg-black/80">
                 <option>USD ($)</option>
                 <option>EUR (€)</option>
                 <option>GBP (£)</option>
@@ -245,53 +245,41 @@ export default function Footer() {
         </div>
 
         {/* Security Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
+        <div className="flex flex-wrap items-center justify-center gap-4 mt-8 text-xs text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-1.5">
-            <div className="h-2 w-2 rounded-full bg-green-500"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span>256-bit SSL Encryption</span>
           </div>
           <div className="hidden sm:block">•</div>
           <div className="flex items-center gap-1.5">
-            <div className="h-2 w-2 rounded-full bg-green-500"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span>GDPR Compliant</span>
           </div>
           <div className="hidden sm:block">•</div>
           <div className="flex items-center gap-1.5">
-            <div className="h-2 w-2 rounded-full bg-green-500"></div>
+            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
             <span>SOC 2 Certified</span>
           </div>
         </div>
       </div>
 
       {/* Mobile App Badges */}
-      <div className="border-t border-gray-200 bg-gray-50/50">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <div className="border-t border-gray-200 bg-gray-50/50 dark:bg-gray-900/90 dark:border-gray-700 backdrop-blur supports-backdrop-filter:bg-gray-50/60 dark:supports-backdrop-filter:bg-gray-900/60">
+        <div className="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="text-center sm:text-left">
-              <p className="text-sm font-medium text-gray-900">Get the app</p>
-              <p className="text-xs text-gray-600">
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Get the app</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">
                 Track your finances on the go
               </p>
             </div>
             <div className="flex gap-3">
-              <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-                <svg
-                  className="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M14.94 3.5H9.06L8 5.44l3.54 2.26 3.46-2.26zM8.92 6.5L5 9.64l3.92 2.5 1.96-3.28zm6.16 0l-1.96 3.28L19 9.64l-3.92-2.5zM5.67 10.5L2 12l3.67 1.5L7.5 12zm12.66 0L16.5 12l1.83 1.5L22 12zM8.92 13.86L5 16.36l3.92 2.5 1.96-3.28zm6.16 0l-1.96 3.28L19 16.36l-3.92-2.5zM5.67 17.5L2 19l3.67 1.5L7.5 19zm12.66 0L16.5 19l1.83 1.5L22 19z" />
-                </svg>
+              <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-black dark:border-gray-600 dark:hover:bg-gray-800 dark:text-[#15a8f8]">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/App_Store_%28iOS%2C_2024%29.svg/2048px-App_Store_%28iOS%2C_2024%29.svg.png" alt="App Store" className="w-5 h-5" />
                 App Store
               </button>
-              <button className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-                <svg
-                  className="h-5 w-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M3 3h18v18H3V3zm4.5 9.75v-1.5h9v1.5h-9zm0 3v-1.5h9v1.5h-9zm0-6v-1.5h9v1.5h-9z" />
-                </svg>
+              <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-black dark:border-gray-600 dark:hover:bg-gray-800 dark:text-[#15a8f8]">
+                <img src="https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Emblem.png" alt="Play Store" className="object-cover w-5 h-5" />
                 Google Play
               </button>
             </div>
