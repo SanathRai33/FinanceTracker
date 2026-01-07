@@ -169,7 +169,7 @@ export default function StatusPage() {
 
         {/* Subscribe */}
         <section>
-          <div className="p-8 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl">
+          <div className="p-8 bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl">
             <div className="max-w-2xl mx-auto text-center">
               <h3 className="mb-3 text-xl font-semibold text-gray-800 dark:text-white">
                 Stay Updated
