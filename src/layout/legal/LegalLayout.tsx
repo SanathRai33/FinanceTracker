@@ -24,7 +24,7 @@ export default function LegalLayout({ title, lastUpdated, children }: LegalLayou
 
         <div className="mt-8 text-sm text-center text-gray-500 dark:text-gray-400">
           <p>
-            For questions about this policy, please contact us at legal@example.com
+            For questions about this policy, please contact us at sanathrai03@gmail.com
           </p>
         </div>
       </div>
