@@ -26,11 +26,26 @@ export default function Footer() {
       { label: "Debt Tracker", href: "/debt-tracker" },
     ],
     resources: [
-      { label: "Documentation", href: "/docs" },
-      { label: "Blog", href: "/blog" },
-      { label: "Guides", href: "/guides" },
-      { label: "API", href: "/api" },
-      { label: "Changelog", href: "/changelog" },
+      {
+        label: "Documentation",
+        href: "https://github.com/SanathRai33/FinanceTracker#-documentation",
+      },
+      {
+        label: "Blog",
+        href: "https://github.com/SanathRai33/FinanceTracker#-blog",
+      },
+      {
+        label: "Guides",
+        href: "https://github.com/SanathRai33/FinanceTracker#-guides",
+      },
+      {
+        label: "API",
+        href: "https://github.com/SanathRai33/FinanceTracker#-api",
+      },
+      {
+        label: "Changelog",
+        href: "https://github.com/SanathRai33/FinanceTracker#-changelog",
+      },
     ],
     legal: [
       { label: "Privacy Policy", href: "/privacy" },
@@ -115,18 +130,22 @@ export default function Footer() {
                 Follow us
               </p>
               <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center w-10 h-10 text-gray-600 transition-all border border-gray-200 rounded-lg dark:text-gray-300 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/10 dark:hover:border-blue-700 dark:hover:text-blue-400"
-                    aria-label={social.label}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
+                {socialLinks.map((social) => {
+                  const isExternal = social.href.startsWith("http");
+
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="flex items-center justify-center w-10 h-10 text-gray-600 transition-all border border-gray-200 rounded-lg dark:text-gray-300 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600 dark:hover:bg-blue-900/10 dark:hover:border-blue-700 dark:hover:text-blue-400"
+                      aria-label={social.label}
+                    >
+                      {social.icon}
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -160,6 +179,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    target="_blank"
                     className="text-sm text-gray-600 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-600"
                   >
                     {link.label}
@@ -224,16 +244,20 @@ export default function Footer() {
           {/* Language & Currency Selector */}
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <span className="text-gray-600 dark:text-gray-300">Language:</span>
+              <span className="text-gray-600 dark:text-gray-300">
+                Language:
+              </span>
               <select className="px-2 py-1 text-sm text-gray-700 bg-transparent border border-gray-300 rounded-md dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:bg-black/80">
-                <option >English</option>
+                <option>English</option>
                 <option>Español</option>
                 <option>Français</option>
                 <option>Deutsch</option>
               </select>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-gray-600 dark:text-gray-300">Currency:</span>
+              <span className="text-gray-600 dark:text-gray-300">
+                Currency:
+              </span>
               <select className="px-2 py-1 text-sm text-gray-700 bg-transparent border border-gray-300 rounded-md dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:bg-black/80">
                 <option>USD ($)</option>
                 <option>EUR (€)</option>
@@ -268,18 +292,28 @@ export default function Footer() {
         <div className="px-4 py-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
             <div className="text-center sm:text-left">
-              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Get the app</p>
+              <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                Get the app
+              </p>
               <p className="text-xs text-gray-600 dark:text-gray-400">
                 Track your finances on the go
               </p>
             </div>
             <div className="flex gap-3">
               <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-black dark:border-gray-600 dark:hover:bg-gray-800 dark:text-[#15a8f8]">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/App_Store_%28iOS%2C_2024%29.svg/2048px-App_Store_%28iOS%2C_2024%29.svg.png" alt="App Store" className="w-5 h-5" />
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/App_Store_%28iOS%2C_2024%29.svg/2048px-App_Store_%28iOS%2C_2024%29.svg.png"
+                  alt="App Store"
+                  className="w-5 h-5"
+                />
                 App Store
               </button>
               <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-black dark:border-gray-600 dark:hover:bg-gray-800 dark:text-[#15a8f8]">
-                <img src="https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Emblem.png" alt="Play Store" className="object-cover w-5 h-5" />
+                <img
+                  src="https://logos-world.net/wp-content/uploads/2020/11/Google-Play-Emblem.png"
+                  alt="Play Store"
+                  className="object-cover w-5 h-5"
+                />
                 Google Play
               </button>
             </div>
