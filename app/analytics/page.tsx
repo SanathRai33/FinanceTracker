@@ -12,6 +12,7 @@ import {
   useAnalyticsStats 
 } from "@/src/hooks/useAnalytics";
 import { Loader2 } from "lucide-react";
+import AnalyticsLoader from "@/src/loader/AnalyticsLoader";
 
 export default function AnalyticsPage() {
   const { data: balanceData, isLoading: balanceLoading } = useBalanceOverTime();
@@ -22,12 +23,7 @@ export default function AnalyticsPage() {
   const isLoading = balanceLoading || expenseLoading || needWantLoading || statsLoading;
 
   if (isLoading) {
-    return (
-      <div className="p-8 text-center bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] min-h-screen flex flex-col items-center justify-center">
-        <Loader2 className="w-8 h-8 mx-auto animate-spin text-slate-400" />
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading analytics...</p>
-      </div>
-    );
+    return <AnalyticsLoader />;
   }
 
   return (
