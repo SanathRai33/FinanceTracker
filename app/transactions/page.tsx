@@ -15,6 +15,7 @@ import { TransactionsFilters } from "@/src/components/transactions/TransactionsF
 import { TransactionsTable } from "@/src/components/transactions/TransactionsTable";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import TransactionLoader from "@/src/loader/TransactionsLoader";
 
 type TransactionType = "income" | "expense" | "transfer";
 
@@ -116,14 +117,7 @@ export default function TransactionsPage() {
   const isLoading = loadingFiltered || loadingAll;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-blue-50 dark:bg-[#121214] dark:text-[#F8FAFC]">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 mx-auto mb-4 text-blue-600 animate-spin" />
-          <p className="text-gray-600 dark:text-gray-400">Loading transactions...</p>
-        </div>
-      </div>
-    );
+    return <TransactionLoader />;
   }
 
   return (
