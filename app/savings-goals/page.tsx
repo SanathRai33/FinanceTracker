@@ -8,20 +8,14 @@ import { GoalCreateModal } from "@/src/components/goals/GoalCreateModal";
 import { GoalsEmptyState } from "@/src/components/goals/GoalsEmptyState";
 import { useGoals } from "@/src/hooks/useSavingsGoals";
 import { Loader2 } from "lucide-react";
+import { GoalsLoading } from "@/src/loader/GoalsLoader";
 
 export default function GoalsPage() {
   const { data: goals, isLoading } = useGoals();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   if (isLoading) {
-    return (
-      <div className="bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] px-3 py-4 sm:px-4 sm:py-6 lg:px-6 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="w-8 h-8 mx-auto text-blue-500 animate-spin" />
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">Loading your goals...</p>
-        </div>
-      </div>
-    );
+    return <GoalsLoading/>
   }
 
   return (
