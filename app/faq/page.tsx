@@ -146,7 +146,7 @@ export default function FAQPage() {
 
         {/* Contact CTA */}
         <section>
-          <div className="p-8 text-center bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl">
+          <div className="p-8 text-center bg-linear-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl">
             <h3 className="mb-3 text-xl font-semibold text-gray-800 dark:text-white">
               Didn't find what you were looking for?
             </h3>

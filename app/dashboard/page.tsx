@@ -7,6 +7,7 @@ import { QuickActions } from "@/src/components/dashboard/QuickActions";
 import { IncomeDistribution } from "@/src/components/dashboard/IncomeDistribution";
 import { RecentTransactions } from "@/src/components/dashboard/RecentTransactions";
 import { useDashboardStats, useTransactions } from "@/src/hooks/useTransactions";
+import DashboardLoader from "@/src/loader/DashboardLoader";
 
 function PlaceholderIcon() {
   return <span className="text-xs">💰</span>;
@@ -19,6 +20,10 @@ export default function DashboardPage() {
   const totalIncome = stats?.totalIncome ?? 0;
   const totalExpenses = stats?.totalExpenses ?? 0;
   const netBalance = stats?.netBalance ?? 0;
+
+  if (statsLoading || txLoading) {
+    return <DashboardLoader />;
+  }
 
   return (
     <div className="bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] px-3 py-4 sm:px-4 sm:py-6 lg:px-6">
