@@ -4,6 +4,8 @@ import { ReactNode } from "react";
 type Props = {
   label: string;
   amount: string;
+  change?: string;
+  trend?: "up" | "down";
   icon?: ReactNode;
   accent?: "green" | "red" | "blue" | "orange" | "purple";
 };
@@ -19,6 +21,8 @@ const accentMap: Record<NonNullable<Props["accent"]>, string> = {
 export function AnalyticsStatCard({
   label,
   amount,
+  change,
+  trend,
   icon,
   accent = "blue",
 }: Props) {
@@ -28,6 +32,11 @@ export function AnalyticsStatCard({
         <div className="space-y-1">
           <p className="text-xs font-medium text-slate-500">{label}</p>
           <p className="text-lg font-semibold text-slate-800">{amount}</p>
+          {change && (
+            <p className={`text-xs font-medium ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+              {change}
+            </p>
+          )}
         </div>
         {icon && (
           <div

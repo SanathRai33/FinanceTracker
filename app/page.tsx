@@ -1,12 +1,14 @@
 // app/page.tsx
 "use client";
 
-import OverviewHeader from "@/src/components/dashboard/OverviewHeader";
-import StatCard from "@/src/components/dashboard/StatCard";
-import { QuickActions } from "@/src/components/dashboard/QuickActions";
-import { IncomeDistribution } from "@/src/components/dashboard/IncomeDistribution";
-import { RecentTransactions } from "@/src/components/dashboard/RecentTransactions";
+import dynamic from 'next/dynamic';
 import { useDashboardStats, useTransactions } from "@/src/hooks/useTransactions";
+
+const OverviewHeader = dynamic(() => import("@/src/components/dashboard/OverviewHeader"));
+const StatCard = dynamic(() => import("@/src/components/dashboard/StatCard"));
+const QuickActions = dynamic(() => import("@/src/components/dashboard/QuickActions").then(mod => ({ default: mod.QuickActions })));
+const IncomeDistribution = dynamic(() => import("@/src/components/dashboard/IncomeDistribution").then(mod => ({ default: mod.IncomeDistribution })));
+const RecentTransactions = dynamic(() => import("@/src/components/dashboard/RecentTransactions").then(mod => ({ default: mod.RecentTransactions })));
 
 function PlaceholderIcon() {
   return <span className="text-xs">💰</span>;

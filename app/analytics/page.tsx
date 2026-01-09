@@ -38,25 +38,25 @@ export default function AnalyticsPage() {
         <div className="grid gap-6 mb-8 lg:grid-cols-2 xl:grid-cols-4">
           <AnalyticsStatCard 
             label="Total Income" 
-            value={statsData?.find((s: any) => s._id === "income")?.total || 0}
+            amount={statsData?.find((s: any) => s._id === "income")?.total || 0}
             change="+12.5%"
             trend="up"
           />
           <AnalyticsStatCard 
             label="Total Expenses" 
-            value={statsData?.find((s: any) => s._id === "expense")?.total || 0}
+            amount={statsData?.find((s: any) => s._id === "expense")?.total || 0}
             change="-3.2%"
             trend="down"
           />
           <AnalyticsStatCard 
             label="Transactions Count" 
-            value={statsData?.reduce((sum: number, s: any) => sum + s.count, 0) || 0}
+            amount={statsData?.reduce((sum: number, s: any) => sum + s.count, 0) || 0}
             change="+5%"
             trend="up"
           />
           <AnalyticsStatCard 
             label="Avg Transaction" 
-            value={statsData?.reduce((sum: number, s: any) => sum + s.avg, 0) || 0}
+            amount={statsData?.reduce((sum: number, s: any) => sum + s.avg, 0) || 0}
             change="+8.1%"
             trend="up"
           />

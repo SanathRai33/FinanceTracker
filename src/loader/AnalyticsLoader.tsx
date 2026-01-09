@@ -4,9 +4,9 @@
 import { ReactNode } from "react";
 
 // Skeleton Components
-function SkeletonText({ className = "" }: { className?: string }) {
+function SkeletonText({ className = "", style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <div className={`animate-pulse rounded bg-gray-200 dark:bg-gray-700 ${className}`} />
+    <div className={`animate-pulse rounded bg-gray-200 dark:bg-gray-700 ${className}`} style={style} />
   );
 }
 

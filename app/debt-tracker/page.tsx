@@ -6,6 +6,7 @@ import { DebtToolbar } from "../../src/components/debt/DebtToolbar";
 import { DebtEmptyState } from "../../src/components/debt/DebtEmptyState";
 import { useDebtRecords } from "../../src/hooks/useDebts";
 import { DebtCard } from "@/src/components/debt/DebtCard";
+import DebtLoader from "@/src/loader/DebtLoader";
 
 export default function DebtTrackerPage() {
   const { data: debts, isLoading, isError } = useDebtRecords();
@@ -16,9 +17,7 @@ export default function DebtTrackerPage() {
     <div className="bg-blue-50  dark:bg-[#121214] dark:text-[#F8FAFC] px-3 py-4 sm:px-4 sm:py-6 lg:p-8 space-y-4 min-h-screen">
       <DebtToolbar />
 
-      {isLoading && (
-        <div className="text-sm text-slate-500 dark:text-slate-400">Loading debts...</div>
-      )}
+      {isLoading && <DebtLoader />}
 
       {isError && (
         <div className="text-sm text-red-600 dark:text-red-400">
