@@ -56,7 +56,7 @@ export default function LoginPage() {
           <button
             onClick={handleGoogle}
             disabled={googleLogin.isPending || meLoading}
-            className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white dark:bg-[#121214] dark:text-white py-3.5 px-4 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-400 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+            className="flex w-full items-center justify-center gap-3 rounded-lg border border-slate-300 bg-white dark:bg-[#121214] dark:text-white py-3.5 px-4 text-sm font-medium text-slate-700 transition-all hover:bg-slate-50 hover:border-slate-400 hover:shadow-sm active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 cursor-pointer"
           >
             {googleLogin.isPending ? (
               <Loader2 className="w-5 h-5 animate-spin text-slate-500" />

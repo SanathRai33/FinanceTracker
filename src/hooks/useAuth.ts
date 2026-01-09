@@ -7,16 +7,19 @@ import { firebaseAuth, googleProvider } from "@/src/lib/firebaseClient";
 import apiClient from "@/src/lib/apiClient";
 
 type MeResponse = {
-  user: { id: string; email: string; name?: string; avatarUrl?: string; phone?: string; currency?: string, language?: string, createdAt?: string } | null;
+  success: boolean;
+  data: {
+    user: { id: string; email: string; name?: string; avatarUrl?: string; phone?: string; currency?: string, language?: string, createdAt?: string } | null;
+  };
 };
 
 export function useCurrentUser() {
-  return useQuery<MeResponse["user"]>({
+  return useQuery<MeResponse["data"]["user"]>({
     queryKey: ["auth", "me"],
     queryFn: async () => {
       const { data } = await apiClient.get<MeResponse>("/auth/me");
       console.log(data)
-      return data.user;
+      return data.data.user;
     },
     staleTime: 5 * 60 * 1000,
   });
