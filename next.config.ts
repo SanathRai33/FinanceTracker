@@ -39,9 +39,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Build optimization
-  swcMinify: true,
-
   // Environment variables
   env: {
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,

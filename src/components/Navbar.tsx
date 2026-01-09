@@ -132,6 +132,7 @@ export default function Navbar() {
                   src={Logo}
                   alt="FinanceTracker Logo"
                   fill
+                  sizes="48px"
                   className="object-contain"
                   priority
                 />
