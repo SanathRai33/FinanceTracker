@@ -303,7 +303,7 @@ export default function Footer() {
               <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 transition-colors bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-black dark:border-gray-600 dark:hover:bg-gray-800 dark:text-[#15a8f8]">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/App_Store_%28iOS%2C_2024%29.svg/2048px-App_Store_%28iOS%2C_2024%29.svg.png"
-                  alt="App Store"
+                  alt="Apple Store"
                   className="w-5 h-5"
                 />
                 App Store
