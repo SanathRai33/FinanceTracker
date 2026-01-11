@@ -1,7 +1,7 @@
 // src/hooks/useAuth.ts
 "use client";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { signInWithPopup, signOut, User } from "firebase/auth";
 import { firebaseAuth, googleProvider } from "@/src/lib/firebaseClient";
 import apiClient from "@/src/lib/apiClient";
@@ -30,6 +30,7 @@ async function getIdTokenFromFirebase(user: User): Promise<string> {
 }
 
 export function useGoogleLogin() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["auth", "google-login"],
     mutationFn: async () => {
@@ -40,15 +41,22 @@ export function useGoogleLogin() {
       const { data } = await apiClient.post("/auth/google", { idToken });
       return data;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+    },
   });
 }
 
 export function useLogout() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["auth", "logout"],
     mutationFn: async () => {
       await apiClient.post("/auth/logout");
       await signOut(firebaseAuth);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
     },
   });
 }
