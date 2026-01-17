@@ -17,11 +17,18 @@ export function useCurrentUser() {
   return useQuery<MeResponse["data"]["user"]>({
     queryKey: ["auth", "me"],
     queryFn: async () => {
-      const { data } = await apiClient.get<MeResponse>("/auth/me");
-      console.log(data)
-      return data.data.user;
+      try {
+        const { data } = await apiClient.get<MeResponse>("/auth/me");
+        console.log("Current user data:", data.data.user);
+        return data.data.user;
+      } catch (error) {
+        console.error("Failed to fetch current user:", error);
+        throw error;
+      }
     },
     staleTime: 5 * 60 * 1000,
+    retry: 2, // Retry twice on failure
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 }
 
@@ -39,10 +46,22 @@ export function useGoogleLogin() {
       const idToken = await getIdTokenFromFirebase(user);
 
       const { data } = await apiClient.post("/auth/google", { idToken });
+      
+      // Store the token in localStorage for subsequent requests
+      if (data.success) {
+        localStorage.setItem("access_token", idToken);
+      }
+      
       return data;
     },
     onSuccess: () => {
+      // Refetch user data after successful login
       queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
+    },
+    onError: (error) => {
+      console.error("Login error:", error);
+      // Clear any stored token on failure
+      localStorage.removeItem("access_token");
     },
   });
 }
@@ -52,8 +71,13 @@ export function useLogout() {
   return useMutation({
     mutationKey: ["auth", "logout"],
     mutationFn: async () => {
-      await apiClient.post("/auth/logout");
-      await signOut(firebaseAuth);
+      try {
+        await apiClient.post("/auth/logout");
+        await signOut(firebaseAuth);
+      } finally {
+        // Always clear local storage, even if request fails
+        localStorage.removeItem("access_token");
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
